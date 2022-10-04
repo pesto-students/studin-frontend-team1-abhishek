@@ -53,7 +53,7 @@ const Navbar = () => {
         <img src={require('../public//static/assets/images/logo-no-background.png')} style={{width: '80px', height: '44px'}}alt="StudIn logo" />
         {/* <AcUnitIcon sx={{display: {xs: "block", sm: "none"}}} /> */}
         <Search>
-          <StyledInputBase placeholder='search...' bgColor='black'/>
+          <StyledInputBase placeholder='search...' bgcolor='black'/>
         </Search>
         <Icons>
           <Badge badgeContent={4} color="error">

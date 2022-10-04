@@ -15,10 +15,6 @@ const Feed = () => {
       <PostModal open={open} handleClose={handleClose}/>
       <Box className='feedExistingPosts'>
         <Post />
-        <Post />
-        <Post />
-        <Post />
-        <Post />
       </Box>
     </Stack>
   )
