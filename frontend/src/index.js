@@ -5,6 +5,7 @@ import App from './App';
 import {configureStore} from '@reduxjs/toolkit';
 import { Provider } from 'react-redux';
 import reportWebVitals from './reportWebVitals';
+import Contextprovider from './Components/Context/Contextprovider';
 
 const store=configureStore({
   reducer:{},
@@ -12,9 +13,11 @@ const store=configureStore({
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
+    <Contextprovider>
      <Provider store={store} >
     <App />
   </Provider>
+  </Contextprovider>
   </React.StrictMode>
 );
 
