@@ -3,17 +3,10 @@ import React from 'react'
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
-import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import Avatar from '@mui/material/Avatar';
 import IconButton from '@mui/material/IconButton';
-import FormGroup from '@mui/material/FormGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
 import Grid from '@mui/material/Grid';
-// import Typography from '@mui/material/Typography';
-import FolderIcon from '@mui/icons-material/Folder';
-import DeleteIcon from '@mui/icons-material/Delete';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 
 function generate(element) {
@@ -33,7 +26,7 @@ const Rightbar = () => {
   const [secondary, setSecondary] = React.useState(true);
 
   return (
-    <Box bgcolor="primary.white" flex={1} p={2} sx={{display: {xs: "none", sm: "block"} }}>
+    <Box bgcolor="primary.white" flex={1.5} p={2} sx={{display: {xs: "none", sm: "block"} }}>
       <Box position="fixed">
         {/* <Typography variant='h6' fontWeight={100} sx={{ mt: 4, mb: 2 }}>Connection Suggestions</Typography> */}
         <Grid item xs={12} md={6}>

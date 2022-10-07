@@ -4,11 +4,6 @@ import Avatar from '@mui/material/Avatar';
 import VideoCallIcon from '@mui/icons-material/VideoCall';
 import Button from '@mui/material/Button';
 
-
-const NewPostBox = styled(Box)(({theme}) => ({
-    borderRadius: theme.shape.borderRadius,
-    bgcolor:theme.palette.common.black
-  }))
   const Search = styled("div")(({theme}) => ({
     backgroundColor: theme.palette.common.white,
     padding: "0 10px",
@@ -19,7 +14,6 @@ const NewPostBox = styled(Box)(({theme}) => ({
     color: theme.palette.common.black,
   }));
   const StyledVideoCallIcon = styled(VideoCallIcon)(({theme}) => ({
-    // color: theme.palette.primary,
     padding: "1%",
     color: theme.palette.grey[500],
   }));
@@ -32,15 +26,20 @@ export const NewPost = (props) => {
     const {handleOpen} = props;
 
     return (
-        <Box className='createNewPostArea' sx={{p:"4%", m:"1% 0% 0% 5.75%", bgcolor:"primary.main", justifyContent:"space-evenly", width:"80%", height: "100%", display: "flex", flexDirection:"row", gap:5, borderRadius:4, boxShadow: "5px 5px 10px" }}>
+        <Box className='createNewPostArea' sx={{p:"4%", m:"1% 0% 0% 5.75%", bgcolor:"primary.main", 
+          justifyContent:"space-evenly", width:"80%", height: "100%", display: "flex", flexDirection:"row", 
+          gap:5, borderRadius:4, boxShadow: "2px 2px 4px" }}
+        >
             <StyledAvatar aria-label="recipe" flex={1}>
-            <img src={require("../public/static/assets/images/sample-profile-icon.jpg")} height="120%" width="120%" alt="Profile icon" />
+              <img src={require("../public/static/assets/images/sample-profile-icon.jpg")} height="120%" width="120%"
+               alt="Profile icon" 
+            />
             </StyledAvatar>
             <Search flex={4} onClick={handleOpen}>
-            <StyledInputBase placeholder='create post...' />
+              <StyledInputBase placeholder='create post...' />
             </Search>
             <Button>
-            <StyledVideoCallIcon flex={1} />
+              <StyledVideoCallIcon flex={1} />
             </Button>
         </Box>
     )

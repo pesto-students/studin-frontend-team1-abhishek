@@ -4,7 +4,8 @@ import { Post } from './Post'
 import { PostModal } from './PostModal';
 import { NewPost } from './NewPost';
 
-const Feed = () => {
+const Feed = (props) => {
+  const {postsData} = props;
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -14,7 +15,7 @@ const Feed = () => {
       <NewPost handleOpen={handleOpen}/>
       <PostModal open={open} handleClose={handleClose}/>
       <Box className='feedExistingPosts'>
-        <Post />
+        <Post postsData={postsData}/>
       </Box>
     </Stack>
   )
