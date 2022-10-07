@@ -6,7 +6,8 @@ import ConnectionRequest from "./Pages/ConnectionRequest";
 import LandingPage from "./Pages/LandingPage"
 import OtpLogin from "./Pages/OtpLogin";
 import Register from "./Pages/Register";
-import test from "./Pages/test";
+import Allsearch from "./Pages/AllSearch"
+import ConnectionProfile from "./Pages/ConnectionProfile"
 
 function App() {
   return (
@@ -18,9 +19,10 @@ function App() {
           <Route path="/connections" element={<AllConnections/>}></Route>
           <Route path="/connection-request" element={<ConnectionRequest />}></Route>
           <Route path="/otp" element={<OtpLogin />}></Route>
-          <Route path="/test" element={<test />}></Route>
           <Route path="/landingpage" element={<LandingPage />}></Route>
           <Route path="/register" element={<Register/>}></Route>
+          <Route path="/search" element={<Allsearch/>}></Route>
+          <Route path="/connectionprofile" element={<ConnectionProfile/>}></Route>
         </Routes>
       </BrowserRouter>
     </div>

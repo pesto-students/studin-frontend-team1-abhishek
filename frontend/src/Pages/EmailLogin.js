@@ -1,16 +1,17 @@
-
-import React, { useState,useContext} from 'react'
+import React, { useState, useContext } from 'react'
 import { Box, TextField, Typography, Button, Grid } from '@mui/material';
 import Loginimage from '../Assets/Loginimage.jpg';
 import { useNavigate } from 'react-router-dom';
 import { Logincontext } from '../Components/Context/Contextprovider';
+
 export default function EmailLogin() {
   const [useremail, setUseremail] = useState("")
   const { email, setEmail } = useContext(Logincontext);
   console.log(email)
-  const history = useNavigate()
+  const redirect = useNavigate()
   const url = "http://localhost:4000/api/v1/auth/sendEmailOTP"
   const obj = { useremail }
+
   const sendOtp = async (e) => {
     e.preventDefault();
     const response = await fetch(url, {
@@ -24,9 +25,9 @@ export default function EmailLogin() {
     console.log(data)
     if (data.status == 200) {
       setEmail(useremail)
-      history("/otp")
-    }else{
-      alert("data  not found")
+      redirect("/otp")
+    } else {
+      alert("kindly check your email")
     }
 
   }
@@ -39,10 +40,12 @@ export default function EmailLogin() {
       backdropFilter: "blur(3px)",
       height: '100vh'
     }}>
+
       <Box backgroundColor="blue"
         width={'100%'}
         height={52}>
         header component</Box>
+
       <Grid container marginTop={6} spacing={1}>
         <Grid item xs={12} sm={12} md={6} lg={6} xl={6} marginTop={7}>
           <Box
@@ -63,8 +66,6 @@ export default function EmailLogin() {
               }
             }}
           >
-
-
             <Typography variant='h6' fontFamily="Times New Roman" fontSize={28} padding={"2,3,3,2"} textAlign="center">
               Millions of like minded Students are
               waiting for you.</Typography>
@@ -73,6 +74,7 @@ export default function EmailLogin() {
               skills.</Typography>
           </Box>
         </Grid>
+
         <Grid item xs={12} sm={12} md={6} lg={6} xl={6} marginTop={7}>
           <form>
             <Box
@@ -93,7 +95,6 @@ export default function EmailLogin() {
                 }
               }}
             >
-
               <Typography variant='h4' padding={1} textAlign="center">Login</Typography>
               <TextField
                 type={'email'}
@@ -122,6 +123,5 @@ export default function EmailLogin() {
       </Grid>
     </div>
   )
-
 }
 
