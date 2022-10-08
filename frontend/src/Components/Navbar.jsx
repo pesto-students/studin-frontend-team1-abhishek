@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
-import { AppBar, Box, Toolbar, Typography, styled, InputBase, Badge } from '@mui/material'
-// import AcUnitIcon from '@mui/icons-material/AcUnit';
+import { AppBar, Box, Toolbar, Typography, styled, InputBase, Badge } from '@mui/material';
 import MailIcon from '@mui/icons-material/Mail';
 import Avatar from '@mui/material/Avatar';
 import NotificationsIcon from '@mui/icons-material/Notifications';
@@ -56,12 +55,12 @@ const Navbar = () => {
           <StyledInputBase placeholder='search...' bgcolor='black'/>
         </Search>
         <Icons>
-          <Badge badgeContent={4} color="error">
+          {/* <Badge badgeContent={4} color="error">
             <MailIcon />
           </Badge>
           <Badge badgeContent={2} color="error">
             <NotificationsIcon />
-          </Badge>
+          </Badge> */}
           <Avatar sx={{width:30, height:30}} src="" onClick={e => {setOpen(true)}}/>
         </Icons>
         <UserBox onClick={e => {setOpen(true)}}>

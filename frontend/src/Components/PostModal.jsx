@@ -10,10 +10,9 @@ import ImageIcon from '@mui/icons-material/Image';
 import data from '@emoji-mart/data';
 import Picker from '@emoji-mart/react';
 
-
 const style = {
   position: 'absolute',
-  top: '50%',
+  top: '30%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
   width: 400,
@@ -60,16 +59,57 @@ export const PostModal = (props) => {
   // const [showFileOption, setShowFileOption] = useState(false)
   const [showEmojiPicker, setShowEmojiPicker] = useState(false)
 
-  const handleImageFileChange = (e) => {
-    const [file] = e.target.files;
-    console.log(file);
-  };
 
-  const handleSubmit = (e) => {
-    //Placeholder for submit action API call
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(editorText);
-    setEditorText("");
+		if (e.target !== e.currentTarget) {
+			return;
+		}
+    // const email = get Current User's email id
+
+		const payload = {
+      user_id: 'test@gmail.com',
+			content: editorText,
+      image: imageFile,
+		};
+
+    const bearer_token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RAZ21haWwuY29tIiwiaWF0IjoxNjY1MTQyNjk3LCJleHAiOjE2NjU0MDE4OTd9._muTKXfvilaMHNSK_cBiWnG6caEzwkgvoeOiaWxDTb4";
+    const formData = new FormData();
+    formData.append('image', imageFile);
+    formData.append('user_id', 'beast@gmail.com');
+    formData.append('content', editorText);
+    try {
+      const url = "http://localhost:9000/api/v1/posts/createPost";
+      const bearer = 'Bearer ' + bearer_token;
+      let res = await fetch( url, {
+        method: "POST",
+        // body: JSON.stringify(payload),
+        body: formData,
+        withCredentials: true,
+        credentials: 'include',
+        headers: {
+            'Authorization': bearer,
+            // 'Content-Type': 'application/json'
+        },
+      });
+      let resJson = await res.json();
+      if (res.status === 200) {
+        reset(e)
+        console.log("Post created successfully");
+      } else {
+        console.log("Some error occured while creating post");
+      }
+    } catch (err) {
+      console.log(err);
+    }
+
+		// props.postArticle(payload);
+		// reset(e);
+    //Placeholder for submit action API call
+    // e.preventDefault();
+    // console.log(editorText);
+    // setEditorText("");
   };
 
   const handleChange = (e) => {
@@ -94,7 +134,14 @@ export const PostModal = (props) => {
     setEditorText("");
     // setImageFile("");
     setShowEmojiPicker(false);
-    props.clickHandler(event);
+    // props.clickHandler(event);
+  };
+
+  const handleImageFileChange = (e) => {
+    const [file] = e.target.files;
+    setImageFile(file);
+    console.log(file);
+    console.log(imageFile);
   };
 
   return (

@@ -11,17 +11,20 @@ import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import Checkbox from '@mui/material/Checkbox';
-import FavoriteBorder from '@mui/icons-material/FavoriteBorder';
-import Favorite from '@mui/icons-material/Favorite';
+import ThumbUpOutlinedIcon from '@mui/icons-material/ThumbUpOutlined';
+import ThumbUpIcon from '@mui/icons-material/ThumbUp';
+import CommentOutlinedIcon from '@mui/icons-material/CommentOutlined';
+import CommentIcon from '@mui/icons-material/Comment';
 
 export const Post = (props) => {
   const {postsData} = props;
-
+  // console.log(postsData);
   return (
     <>
     { postsData.map((post) => {
       return (
           post.data.map((dat)=>{
+            // console.log(dat);
             return(
             <Card sx={{margin: 5, boxShadow: "2px 2px 4px"}}>
             <CardHeader
@@ -40,9 +43,12 @@ export const Post = (props) => {
             />
             <CardMedia
               component="img"
-              height="20%"
-              // image={post.image_url}
-              src={require("../public/static/assets/images/image1.jpg")} 
+              // height="20%"
+              maxWidth="100%"
+              height="auto"
+              image={dat.image_url}
+              // src={dat.image_url}
+              // src={require("../public/static/assets/images/image1.jpg")} 
               alt="Paella dish"
             />
             <CardContent>
@@ -52,16 +58,19 @@ export const Post = (props) => {
             </CardContent>
             <CardActions disableSpacing>
               <IconButton aria-label="add to favorites">
-                <Checkbox icon={<FavoriteBorder />} checkedIcon={<Favorite />} />
+                <Checkbox icon={<ThumbUpOutlinedIcon />} checkedIcon={<ThumbUpIcon />} />
               </IconButton>
-              <ExpandMoreIcon
+              <IconButton aria-label="add to favorites">
+                <Checkbox icon={<CommentOutlinedIcon />} checkedIcon={<CommentIcon />} />
+              </IconButton>
+              {/* <ExpandMoreIcon
                 // expand={expanded}
                 // onClick={handleExpandClick}
                 // aria-expanded={expanded}
                 aria-label="show more"
               >
                 <ExpandMoreIcon />
-              </ExpandMoreIcon>
+              </ExpandMoreIcon> */}
             </CardActions>
             <Collapse 
             // in={expanded}
