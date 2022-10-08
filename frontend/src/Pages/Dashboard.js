@@ -47,7 +47,6 @@ const Dashboard = (props) => {
       })
 
       const jsonResult = await result.json()
-      // console.log(jsonResult.data)
       setProfileData(jsonResult.data);
     }
 
