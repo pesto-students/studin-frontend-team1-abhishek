@@ -2,10 +2,9 @@
 import React, { useState, useContext } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { Box, TextField, Typography, Button, Grid } from '@mui/material';
-import Card from '@mui/material/Card';
-import CardMedia from '@mui/material/CardMedia';
 import Loginimage from '../Assets/Loginimage.jpg';
 import { Logincontext } from '../Components/Context/Contextprovider';
+import Navbar from '../Components/Navbar';
 
 export default function OtpLogin() {
   const { email, setEmail } = useContext(Logincontext);
@@ -42,10 +41,7 @@ export default function OtpLogin() {
       height: '100vh'
     }}>
 
-      <Box backgroundColor="blue"
-        width={'100%'}
-        height={52}>
-        header component</Box>
+    <Navbar/>
 
       <Grid container marginTop={6} spacing={1}>
         <Grid item xs={12} sm={12} md={6} lg={6} xl={6} marginTop={7}>
