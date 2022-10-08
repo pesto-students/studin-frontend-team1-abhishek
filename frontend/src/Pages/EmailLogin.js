@@ -3,6 +3,7 @@ import { Box, TextField, Typography, Button, Grid } from '@mui/material';
 import Loginimage from '../Assets/Loginimage.jpg';
 import { useNavigate } from 'react-router-dom';
 import { Logincontext } from '../Components/Context/Contextprovider';
+import Navbar from '../Components/Navbar';
 
 export default function EmailLogin() {
   const [useremail, setUseremail] = useState("")
@@ -41,10 +42,7 @@ export default function EmailLogin() {
       height: '100vh'
     }}>
 
-      <Box backgroundColor="blue"
-        width={'100%'}
-        height={52}>
-        header component</Box>
+<Navbar/>
 
       <Grid container marginTop={6} spacing={1}>
         <Grid item xs={12} sm={12} md={6} lg={6} xl={6} marginTop={7}>
