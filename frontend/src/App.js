@@ -7,7 +7,6 @@ import ConnectionRequest from "./Pages/ConnectionRequest";
 import { createTheme, ThemeProvider } from "@mui/material";
 // import { theme } from "./Theme/theme";
 import { useState } from "react";
-import LandingPage from "./Pages/LandingPage"
 import OtpLogin from "./Pages/OtpLogin";
 import Register from "./Pages/Register";
 import Allsearch from "./Pages/AllSearch"
