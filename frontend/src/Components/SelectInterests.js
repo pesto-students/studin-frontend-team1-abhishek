@@ -19,12 +19,8 @@ const MenuProps = {
   },
 };
 
-const Interests = [
-  'programming',
-  'dancing',
-  'singing',
-  'painting',
-  'photography',
+const Interests = ['Music', 'Art', 'Sports', 'Literature', 'History',
+  'Science', 'Technology', 'Gardening', 'Entertainment'
 ];
 
 export default function SelectInterests() {

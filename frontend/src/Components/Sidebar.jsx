@@ -10,7 +10,7 @@ import PeopleIcon from '@mui/icons-material/People';
 import ModeNightIcon from '@mui/icons-material/ModeNight';
 
 const Sidebar = ({mode, setMode, profileData}) => {
-  const {first_name, last_name, school_name} = profileData;
+  const {firstName, lastName, schoolName, profilePhoto} = profileData;
 
   return (
     <Box bgcolor="primary.white" flex={1.5} p={2} sx={{display: {xs: "none", sm: "block"}}}>
@@ -19,11 +19,12 @@ const Sidebar = ({mode, setMode, profileData}) => {
         <List sx={{display:"flex",flexDirection:"column"}}>
           <ListItem disablePadding sx={{justifyContent: 'center'}}>
                 <Avatar sx={{width: 70, height: 70}}>
-                  <img src={require("../public/static/assets/images/sample-profile-icon.jpg")} height="120%" width="120%" alt="Profile icon" />
+                  <img src={profilePhoto} height="100%" width="100%" alt="Profile icon" />
+                  {/* <img src={require("../public/static/assets/images/sample-profile-icon.jpg")} height="120%" width="120%" alt="Profile icon" /> */}
                 </Avatar>
           </ListItem>
           <ListItem disablePadding sx={{textAlign: "center"}}>
-            <ListItemText primary={`${first_name} ${last_name}`} />
+            <ListItemText primary={`${firstName} ${lastName}`} />
           </ListItem>
           <Divider sx={{margin: "6%"}} />
           <ListItem disablePadding>
@@ -36,7 +37,7 @@ const Sidebar = ({mode, setMode, profileData}) => {
               <ListItemIcon>
                 <SchoolIcon />
               </ListItemIcon>
-              <ListItemText primary={school_name} />
+              <ListItemText primary={schoolName} />
           </ListItem>
           <ListItem disablePadding>
               <ListItemIcon>

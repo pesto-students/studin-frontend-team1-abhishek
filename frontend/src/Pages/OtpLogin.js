@@ -7,6 +7,7 @@ import { Logincontext } from '../Components/Context/Contextprovider';
 import Navbar from '../Components/Navbar';
 
 export default function OtpLogin() {
+  
   const { email, setEmail } = useContext(Logincontext);
   const [otp, setOtp] = useState("")
   const url = "http://localhost:4000/api/v1/auth/login"
@@ -25,7 +26,7 @@ export default function OtpLogin() {
     const data = await response.json();
     console.log(data)
     if (data.status == 201) {
-      redirect("/landingpage")
+      redirect("/dashboard")
     } else {
       redirect("/register")
     }
@@ -56,12 +57,12 @@ export default function OtpLogin() {
             margin="auto"
             color="whitesmoke"
             borderRadius={5}
-            boxShadow={'10px 10px 15px #FFFFFF'}
-            sx={{
-              ":hover": {
-                boxShadow: "20px 20px 30px #FFFFFF"
-              }
-            }}
+            // boxShadow={'10px 10px 15px #FFFFFF'}
+            // sx={{
+            //   ":hover": {
+            //     boxShadow: "20px 20px 30px #FFFFFF"
+            //   }
+            // }}
           >
             <Typography variant='h6' fontFamily="Times New Roman" fontSize={28} padding={"2,3,3,2"} textAlign="center">
               Millions of like minded Students are
@@ -85,12 +86,12 @@ export default function OtpLogin() {
               backgroundColor="#00000080"
               color="whitesmoke"
               borderRadius={5}
-              boxShadow={'-10px -10px 15px #FFFFFF'}
-              sx={{
-                ":hover": {
-                  boxShadow: "-20px -20px 30px #FFFFFF"
-                }
-              }}
+              // boxShadow={'-10px -10px 15px #FFFFFF'}
+              // sx={{
+              //   ":hover": {
+              //     boxShadow: "-20px -20px 30px #FFFFFF"
+              //   }
+              // }}
             >
               <Typography variant='h4' padding={1} textAlign="center">Login</Typography>
               <TextField
