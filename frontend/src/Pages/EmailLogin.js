@@ -8,7 +8,6 @@ import Navbar from '../Components/Navbar';
 export default function EmailLogin() {
   const [useremail, setUseremail] = useState("")
   const { email, setEmail } = useContext(Logincontext);
-  console.log(email)
   const redirect = useNavigate()
   const url = "http://localhost:4000/api/v1/auth/sendEmailOTP"
   const obj = { useremail }
@@ -112,12 +111,12 @@ export default function EmailLogin() {
               backgroundColor="#00000080"
               color="whitesmoke"
               borderRadius={5}
-              boxShadow={'-10px -10px 15px #FFFFFF'}
-              sx={{
-                ":hover": {
-                  boxShadow: "-20px -20px 30px #FFFFFF"
-                }
-              }}
+              // boxShadow={'-10px -10px 15px #FFFFFF'}
+              // sx={{
+              //   ":hover": {
+              //     boxShadow: "-20px -20px 30px #FFFFFF"
+              //   }
+              // }}
             >
               <Typography variant='h4' padding={1} textAlign="center">Login</Typography>
               <TextField

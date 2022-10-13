@@ -1,10 +1,104 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Box, Avatar, Typography, Button, Grid, TextField } from '@mui/material';
 import Loginimage from '../Assets/Loginimage.jpg';
 import Navbar from '../Components/Navbar';
 import LoginTextfield from '../Components/LoginTextfield';
 import SelectInterests from '../Components/SelectInterests';
-export default function Register() {
+import { useNavigate } from 'react-router-dom';
+
+export const Register = () => {
+  const [imageFile, setImageFile] = useState("");
+  const [email, setEmail] = useState("Email");
+  const [firstName, setFirstName] = useState("First");
+  const [lastName, setLastName] = useState("Last");
+  const [schoolName, setSchoolName] = useState("School");
+  const [collegeName, setCollegeName] = useState("College");
+  const [interests, setInterests] = useState([]);
+  const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState(false);
+  const redirect = useNavigate();
+
+  const reset = (e) => {
+    // e.preventDefault();
+    setImageFile('');
+    setEmail('');
+    setFirstName('');
+    setLastName('');
+    setSchoolName('');
+    setCollegeName('');
+    setInterests([]);
+  };
+
+  const handleImageFileChange = (e) => {
+    const [file] = e.target.files;
+    setImageFile(file);
+    console.log(imageFile);
+  };
+
+  //   const [inpval, setInpval] = useState({
+  //     fname: "",
+  //     email: "",
+  //     password: "",
+  //     cpassword: ""
+  // });
+
+  // Handling the form submission
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (e.target !== e.currentTarget) {
+      return;
+    }
+    if (firstName === '' || lastName === '' || email === '' || schoolName === '' || collegeName === '') {
+      setError(true);
+    } else {
+      setSubmitted(true);
+      setError(false);
+    }
+    // const email = get Current User's email id
+    // const bearer_token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RAZ21haWwuY29tIiwiaWF0IjoxNjY1MTQyNjk3LCJleHAiOjE2NjU0MDE4OTd9._muTKXfvilaMHNSK_cBiWnG6caEzwkgvoeOiaWxDTb4";
+    const formData = new FormData();
+    formData.append('image', imageFile);
+    formData.append('userId', email);
+    formData.append('firstName', firstName);
+    formData.append('lastName', lastName);
+    formData.append('schoolName', schoolName);
+    formData.append('collegeName', collegeName);
+    formData.append('interests', interests);
+    try {
+      const url = "http://localhost:4000/api/v1/auth/register";
+      // const bearer = 'Bearer ' + bearer_token;
+      let res = await fetch(url, {
+        method: "POST",
+        // body: JSON.stringify(payload),
+        body: formData,
+        // withCredentials: true,
+        // credentials: 'include',
+        // headers: {
+        //   'Authorization': bearer,
+        //   // 'Content-Type': 'application/json'
+        // },
+      });
+      const resJson = await res.json();
+      console.log(resJson);
+      if (resJson.status == 200) {
+        console.log("User registered successfully");
+        // reset()
+        redirect("/dashboard")
+      } else {
+        console.log("User registeration Unsuccessful");
+        redirect("/register")
+      }
+      // if (res.status === 200) {
+      //   reset()
+      //   console.log("User registered successfully");
+      // } else {
+      //   console.log("Some error occured while registering new user");
+      // }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <div style={{
       backgroundImage: `url(${Loginimage})`,
@@ -12,30 +106,25 @@ export default function Register() {
       backgroundRepeat: 'no-repeat',
       backgroundPosition: 'center',
       backdropFilter: "blur(3px)",
-      height: '100%'
+      height: '100vh',
+
     }}>
 
       <Navbar />
       <Grid container marginTop={2} spacing={1} justifyContent={"center"}>
         <Grid item xs={12} sm={12} md={10} lg={10} xl={10} >
-          <form>
+          <form onSubmit={handleSubmit}>
             <Box
               display="flex"
               flexDirection="column"
               flex-wrap="wrap"
-              maxWidth={700}
+              maxWidth="75%"
               alignItems="center"
               justifyContent={"center"}
               margin="auto"
               backgroundColor="#00000080"
               color="whitesmoke"
               borderRadius={5}
-              boxShadow={'-10px -10px 15px #FFFFFF'}
-              sx={{
-                ":hover": {
-                  boxShadow: "-20px -20px 30px #FFFFFF"
-                }
-              }}
             >
               <Typography variant='h4' padding={1} textAlign="center">Register</Typography>
               <Avatar
@@ -45,11 +134,14 @@ export default function Register() {
                 sx={{ width: 80, height: 80 }}
               >
               </Avatar>
-              <LoginTextfield type="file" />
-              <LoginTextfield type={"text"} name={'firstname'} placeholder={'Vishal'} label="Enter Your first name" />
-              <LoginTextfield type="text" name='lastname' placeholder='singh' label="Enter Your last name" />
-              <LoginTextfield type="text" name='schoolname' placeholder='Delhi Public School' label="Enter Your school name" />
-              <LoginTextfield type="text" name='collegename' placeholder='IIT DELHI' label="Enter Your College name" />
+              <input onChange={handleImageFileChange}
+                  multiple={false} type="file"/>
+              {/* <LoginTextfield type="file" name="imageUrl" onChange={handleImageFileChange} /> */}
+              <LoginTextfield type="email" name='email' value={email} onChange={setEmail} placeholder={'*@*.com'} label="Enter Your Email" />
+              <LoginTextfield type="text" name='firstName' value={firstName} onChange={setFirstName} placeholder={'Vishal'} label="Enter Your first name" />
+              <LoginTextfield type="text" name='lastName' value={lastName} onChange={setLastName} placeholder='singh' label="Enter Your last name" />
+              <LoginTextfield type="text" name='schoolName' value={schoolName} onChange={setSchoolName} placeholder='Delhi Public School' label="Enter Your school name" />
+              <LoginTextfield type="text" name='collegeName' value={collegeName} onChange={setCollegeName} placeholder='IIT DELHI' label="Enter Your College name" />
               <SelectInterests />
               <Button
                 variant='contained'
