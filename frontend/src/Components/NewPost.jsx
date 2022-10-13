@@ -23,17 +23,17 @@ import Button from '@mui/material/Button';
   }));
 
 export const NewPost = (props) => {
-    const {handleOpen} = props;
+    const {handleOpen, profilePhoto} = props;
 
     return (
         <Box className='createNewPostArea' sx={{p:"4%", m:"1% 0% 0% 5.75%", bgcolor:"primary.main", 
           justifyContent:"space-evenly", width:"80%", height: "100%", display: "flex", flexDirection:"row", 
-          gap:5, borderRadius:4, boxShadow: "2px 2px 4px" }}
+          gap:5, borderRadius:4, boxShadow: "1px 1px 1.5px" }}
         >
             <StyledAvatar aria-label="recipe" flex={1}>
-              <img src={require("../public/static/assets/images/sample-profile-icon.jpg")} height="120%" width="120%"
-               alt="Profile icon" 
-            />
+              {/* <img src={require("../public/static/assets/images/sample-profile-icon.jpg")} height="120%" width="120%" */}
+               {/* alt="Profile icon" /> */}
+               <img src={profilePhoto} height="120%" width="120%" alt="Profile icon" />
             </StyledAvatar>
             <Search flex={4} onClick={handleOpen}>
               <StyledInputBase placeholder='create post...' />

@@ -17,7 +17,7 @@ import CommentOutlinedIcon from '@mui/icons-material/CommentOutlined';
 import CommentIcon from '@mui/icons-material/Comment';
 
 export const Post = (props) => {
-  const {postsData} = props;
+  const {postsData, profilePhoto} = props;
   // console.log(postsData);
   return (
     <>
@@ -26,11 +26,11 @@ export const Post = (props) => {
           post.data.map((dat)=>{
             // console.log(dat);
             return(
-            <Card sx={{margin: 5, boxShadow: "2px 2px 4px"}}>
+            <Card sx={{margin: 5, boxShadow: "0.25px 0.25px 0.5px"}}>
             <CardHeader
               avatar={
                 <Avatar sx={{ bgcolor: "red" }} aria-label="recipe">
-                  R
+                  <img src={require("../public/static/assets/images/image1.jpg")}  height="120%" width="120%" alt="Profile icon" />
                 </Avatar>
               }
               action={

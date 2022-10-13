@@ -8,14 +8,14 @@ import { Box, Stack, createTheme } from "@mui/material";
 import MyErrorBoundary from './ErrorBoundary';
 
 const Dashboard = (props) => {
-  const {mode,setMode} = props;
+  const {mode, setMode} = props;
   const [profileData, setProfileData] = useState([]);
   const [postsData, setPostsData] = useState([]);
-  const bearer_token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RAZ21haWwuY29tIiwiaWF0IjoxNjY1MTQyNjk3LCJleHAiOjE2NjU0MDE4OTd9._muTKXfvilaMHNSK_cBiWnG6caEzwkgvoeOiaWxDTb4";
+  const bearer_token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImpqYWdhbm5uQGdtYWlsLmNvbSIsImlhdCI6MTY2NTQxNjcyOSwiZXhwIjoxNjY1Njc1OTI5fQ.5R8X2u3SB0G7epcnBstAPEpRjNnWQWwbKwZpQpqPO3c"
   
   try {
     const fetchPostData = async() => {
-      const url = "http://localhost:9000/api/v1/posts/";
+      const url = "http://localhost:4000/api/v1/posts/";
       const bearer = 'Bearer ' + bearer_token;
       const result = await fetch(url, {
         method: 'POST',
@@ -33,7 +33,7 @@ const Dashboard = (props) => {
     }
 
     const getProfileData = async() => {
-      const url = "http://localhost:9000/api/v1/profile/profileSummary/";
+      const url = "http://localhost:4000/api/v1/profile/profileSummary/";
       const bearer = 'Bearer ' + bearer_token;
       const result = await fetch(url, {
         method: 'POST',
@@ -43,10 +43,11 @@ const Dashboard = (props) => {
             'Authorization': bearer,
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ email: 'beast@gmail.com' })  
+        body: JSON.stringify({ email: 'jjagannn@gmail.com' })  
       })
 
       const jsonResult = await result.json()
+      console.log(jsonResult);
       setProfileData(jsonResult.data);
     }
 
@@ -62,11 +63,11 @@ const Dashboard = (props) => {
   
   return (
     <Box bgcolor={"background.default"} color={"text.primary"}>
-    <Navbar />
+    <Navbar profileData={profileData}/>
     <MyErrorBoundary>
     <Stack direction="row" spacing={2} justifyContent="space-between">
-      <Sidebar setMode={setMode} mode={mode} profileData={profileData}/>
-      <Feed postsData={postsData}/>
+      <Sidebar setMode={setMode} mode={mode} profileData={profileData} />
+      <Feed postsData={postsData} profilePhoto={profileData.profilePhoto} />
       <Rightbar />
     </Stack>
     </MyErrorBoundary>
