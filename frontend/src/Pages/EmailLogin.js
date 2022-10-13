@@ -41,38 +41,64 @@ export default function EmailLogin() {
       height: '100vh'
     }}>
 
-<Navbar/>
+      <Navbar />
 
       <Grid container marginTop={6} spacing={1}>
-        <Grid item xs={12} sm={12} md={6} lg={6} xl={6} marginTop={7}>
+        <Grid item xs={12} sm={12} md={6} lg={6} xl={6} margin="auto" marginTop="7%">
           <Box
             display="flex"
             flexDirection="column"
             flex-wrap="wrap"
-            maxWidth={450}
+            maxWidth={500}
             alignItems="center"
             backgroundColor="#00000060"
             justifyContent={"center"}
             margin="auto"
             color="whitesmoke"
             borderRadius={5}
-            // boxShadow={'10px 10px 15px #FFFFFF'}
-            // sx={{
-            //   ":hover": {
-            //     boxShadow: "20px 20px 30px #FFFFFF"
-            //   }
-            // }}
+            boxShadow={'5px 5px 5px #FFFFFF'}
+            sx={{
+              ":hover": {
+                boxShadow: "10px 10px 10px #FFFFFF"
+              }
+            }}
           >
-            <Typography variant='h6' fontFamily="Times New Roman" fontSize={28} padding={"2,3,3,2"} textAlign="center">
+            <Typography variant='h6' fontFamily="Times New Roman" fontSize={32} padding={"2,3,3,2"} textAlign="center" marginLeft={3}
+            marginTop={3} marginRight={3}>
               Millions of like minded Students are
               waiting for you.</Typography>
-            <Typography variant='h6' fontFamily="Times New Roman" fontSize={28} padding={"2,3,3,2"} textAlign="center">
+            <Typography variant='h6' fontFamily="Times New Roman" fontSize={32} padding={"2,3,3,2"} textAlign="center">
               connecting students to share their
               skills.</Typography>
+
+            <form>
+              <TextField
+                type={'email'}
+                variant='outlined'
+                name='email'
+                value={useremail}
+                id="standard-required"
+                placeholder='vishusingh987@gmail.com'
+                margin='normal'
+                label="Enter Your Email"
+                sx={{
+                  input: { color: 'whitesmoke', fontWeight: 'bold', textAlign: 'center' },
+                  label: { color: 'whitesmoke', fontWeight: 'bold', },
+                }}
+                onChange={(e) => { setUseremail(e.target.value) }} />
+              <br></br>
+              <Button
+                variant='contained'
+                type='submit'
+                size="large"
+                sx={{ marginTop: 2, marginBottom: 3, marginLeft:6, borderRadius: 3, }}
+                onClick={(e) => sendOtp(e)}
+              >Send OTP</Button>
+            </form>
           </Box>
         </Grid>
 
-        <Grid item xs={12} sm={12} md={6} lg={6} xl={6} marginTop={7}>
+        {/* <Grid item xs={12} sm={12} md={6} lg={6} xl={6} marginTop={7}>
           <form>
             <Box
               display="flex"
@@ -116,7 +142,7 @@ export default function EmailLogin() {
               >Login</Button>
             </Box>
           </form>
-        </Grid>
+        </Grid> */}
       </Grid>
     </div>
   )
