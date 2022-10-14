@@ -23,11 +23,11 @@ export const Post = (props) => {
     <>
     { postsData.map((post) => {
       return (
-          post.data.map((dat)=>{
+          post.data.map((dat,i)=>{
             // console.log(dat);
             return(
-            <Card sx={{margin: 5, boxShadow: "0.25px 0.25px 0.5px"}}>
-            <CardHeader
+            <Card sx={{margin: 5, boxShadow: "0.25px 0.25px 0.5px"}} key={i}>
+            <CardHeader 
               avatar={
                 <Avatar sx={{ bgcolor: "red" }} aria-label="recipe">
                   <img src={require("../public/static/assets/images/image1.jpg")}  height="120%" width="120%" alt="Profile icon" />
@@ -44,9 +44,9 @@ export const Post = (props) => {
             <CardMedia
               component="img"
               // height="20%"
-              maxWidth="100%"
+              // maxWidth="100%"
               height="auto"
-              image={dat.image_url}
+              image={dat.imageUrl}
               // src={dat.image_url}
               // src={require("../public/static/assets/images/image1.jpg")} 
               alt="Paella dish"

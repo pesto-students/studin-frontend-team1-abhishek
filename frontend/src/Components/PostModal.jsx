@@ -52,12 +52,12 @@ export const PostModal = (props) => {
     // const email = get Current User's email id
 
 		const payload = {
-      user_id: 'test@gmail.com',
+      user_id: 'jjagannn@gmail.com',
 			content: editorText,
       image: imageFile,
 		};
 
-    const bearer_token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImpqYWdhbm5uQGdtYWlsLmNvbSIsImlhdCI6MTY2NTQxNjcyOSwiZXhwIjoxNjY1Njc1OTI5fQ.5R8X2u3SB0G7epcnBstAPEpRjNnWQWwbKwZpQpqPO3c"
+    const bearer_token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImpqYWdhbm5uQGdtYWlsLmNvbSIsImlhdCI6MTY2NTc1NDM5MSwiZXhwIjoxNjY2MDEzNTkxfQ.DzePMQS9xHCgHP_e5nhh6honyUK5hzm4rIQwAbyrpPw"
     const formData = new FormData();
     formData.append('image', imageFile);
     formData.append('user_id', 'beast@gmail.com');
@@ -86,13 +86,6 @@ export const PostModal = (props) => {
     } catch (err) {
       console.log(err);
     }
-
-		// props.postArticle(payload);
-		// reset(e);
-    //Placeholder for submit action API call
-    // e.preventDefault();
-    // console.log(editorText);
-    // setEditorText("");
   };
 
   const handleChange = (e) => {
@@ -177,19 +170,6 @@ export const PostModal = (props) => {
                   marginLeft: -40,maxWidth: "320px",borderRadius: "20px"}}
                 theme="dark" autoFocus="true" previewPosition="top"
                 title="Pick an emoji"
-                // showSkinTones={false}
-                // showPreview={false}
-                // emojiTooltip={false}
-                // enableFrequentEmojiSort={false}
-                // style={{
-                //   top: 0,
-                //   position: "absolute",
-                //   bottom: "20px",
-                //   right: "50px",
-                //   maxWidth: "250px",
-                //   width: "100%",
-                //   outline: "none"
-                // }}
               />
             </span>
           )}
