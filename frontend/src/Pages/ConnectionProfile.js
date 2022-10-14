@@ -1,28 +1,27 @@
-import { Box, Toolbar } from '@mui/material'
+import { Box, } from '@mui/material'
 import React from 'react'
-import Tab1 from './components/Tab1'
-import Navbar from './components/Navbar'
-import FriendsProfile from "./components/FriendsProfile"
-import Card1 from './components/Card1'
+import TabCom from '../Components/TabComponent'
+import Navbar from '../Components/Navbar'
+import ConectionProfileCom from "../Components/ConnnectionsProfileComponent"
+
 
 const ConectionProfile = () => {
   return (
-
     <Box sx={{
       height: '100%',
       width: '100%',
-      backgroundColor: '#F3F2EF'
+      bgcolor: "primary.main"
+
+
     }}>
       <Navbar />
-      <FriendsProfile />
-      <Tab1 />
-      <Toolbar sx={{
-        flexDirection: "column", mx: "10%", border: "ridge", bgcolor: "white", mt: "2 % ",
-      }}>
-        <Card1 />
-      </Toolbar>
+      <Box sx={{ border: 1, mx: "5%", mt: "2%", bgcolor: "white" }}>
+        <ConectionProfileCom />
+        <TabCom />
+      </Box>
 
     </Box>
+
   )
 }
 

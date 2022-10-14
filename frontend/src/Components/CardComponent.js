@@ -4,11 +4,11 @@ import CommentIcon from '@mui/icons-material/Comment';
 import React from 'react'
 
 
-function Card1() {
+function CardCom() {
   return (
     // <Box sx={{ border: "ridge", Align: "center" }}>
     <Box flex={4} p={2}>
-      <Card sx={{ maxWidth: 800 }}>
+      <Card sx={{ maxWidth: 1200 }}>
         <CardHeader
           avatar={
             <Avatar sx={{ bgcolor: "red" }} aria-label="recipe">
@@ -55,4 +55,4 @@ function Card1() {
   )
 }
 
-export default Card1
+export default CardCom
