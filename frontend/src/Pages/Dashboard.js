@@ -14,7 +14,8 @@ const Dashboard = (props) => {
   const [postsData, setPostsData] = useState([]);
   const [allUsersData, setAllUsersData] = useState([])
   const [loading, setLoading] = useState(false);
-  const bearer_token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImpqYWdhbm5uQGdtYWlsLmNvbSIsImlhdCI6MTY2NTc1NDM5MSwiZXhwIjoxNjY2MDEzNTkxfQ.DzePMQS9xHCgHP_e5nhh6honyUK5hzm4rIQwAbyrpPw"
+  const bearer_token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImpqYWdhbm5uQGdtYWlsLmNvbSIsImlhdCI6MTY2NTc2NzI2MCwiZXhwIjoxNjY2MDI2NDYwfQ.tMqDtRv5iaISHErExyV3Vz3er3-nk-gxf-RVuS-DxPg"
+
   
   try {
     const fetchPostData = async() => {
@@ -28,6 +29,7 @@ const Dashboard = (props) => {
             'Authorization': bearer,
             'Content-Type': 'application/json'
         },
+
         body: JSON.stringify({ email: 'jjagannn@gmail.com' })
         
       })
