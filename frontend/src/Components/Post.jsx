@@ -18,14 +18,13 @@ import CommentIcon from '@mui/icons-material/Comment';
 
 export const Post = (props) => {
   const {postsData, profilePhoto} = props;
-  // console.log(postsData);
+
   return (
     <>
-    { postsData.map((post) => {
-      return (
-          post.data.map((dat,i)=>{
-            // console.log(dat);
-            return(
+    { postsData.length>0 ? postsData.map((post) => (
+      
+          post.data.map((dat,i)=>(   
+
             <Card sx={{margin: 5, boxShadow: "0.25px 0.25px 0.5px"}} key={i}>
             <CardHeader 
               avatar={
@@ -52,7 +51,7 @@ export const Post = (props) => {
               alt="Paella dish"
             />
             <CardContent>
-              <Typography variant="body2" color="text.secondary">
+              <Typography variant="subtitle1" color="text.secondary">
                 {dat.content}
               </Typography>
             </CardContent>
@@ -105,8 +104,8 @@ export const Post = (props) => {
             </Collapse>
           </Card>
           )
-        }))
-      })  
+          ))) : <div>No data available</div>
+
     } 
 </>
   )
