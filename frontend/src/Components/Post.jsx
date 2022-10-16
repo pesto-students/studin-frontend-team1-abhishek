@@ -17,20 +17,19 @@ import CommentOutlinedIcon from '@mui/icons-material/CommentOutlined';
 import CommentIcon from '@mui/icons-material/Comment';
 
 export const Post = (props) => {
-  const {postsData} = props;
-  // console.log(postsData);
+  const {postsData, profilePhoto} = props;
+
   return (
     <>
-    { postsData.map((post) => {
-      return (
-          post.data.map((dat)=>{
-            // console.log(dat);
-            return(
-            <Card sx={{margin: 5, boxShadow: "2px 2px 4px"}}>
-            <CardHeader
+    { postsData.length>0 ? postsData.map((post) => (
+      
+          post.data.map((dat,i)=>(   
+
+            <Card sx={{margin: 5, boxShadow: "0.25px 0.25px 0.5px"}} key={i}>
+            <CardHeader 
               avatar={
                 <Avatar sx={{ bgcolor: "red" }} aria-label="recipe">
-                  R
+                  <img src={require("../public/static/assets/images/image1.jpg")}  height="120%" width="120%" alt="Profile icon" />
                 </Avatar>
               }
               action={
@@ -44,15 +43,15 @@ export const Post = (props) => {
             <CardMedia
               component="img"
               // height="20%"
-              maxWidth="100%"
+              // maxWidth="100%"
               height="auto"
-              image={dat.image_url}
+              image={dat.imageUrl}
               // src={dat.image_url}
               // src={require("../public/static/assets/images/image1.jpg")} 
               alt="Paella dish"
             />
             <CardContent>
-              <Typography variant="body2" color="text.secondary">
+              <Typography variant="subtitle1" color="text.secondary">
                 {dat.content}
               </Typography>
             </CardContent>
@@ -105,8 +104,8 @@ export const Post = (props) => {
             </Collapse>
           </Card>
           )
-        }))
-      })  
+          ))) : <div>No data available</div>
+
     } 
 </>
   )

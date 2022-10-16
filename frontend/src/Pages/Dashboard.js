@@ -4,56 +4,87 @@ import Navbar from '../Components/Navbar'
 import Sidebar from "../Components/Sidebar";
 import Feed from "../Components/Feed";
 import Rightbar from "../Components/Rightbar";
-import { Box, Stack, createTheme } from "@mui/material";
+import { Box, Stack } from "@mui/material";
 import MyErrorBoundary from './ErrorBoundary';
+import CircularProgress from '@mui/material/CircularProgress';
+import { theme } from '../Theme/theme';
+import { useAuth } from '../Components/Auth';
 
 const Dashboard = (props) => {
-  const {mode,setMode} = props;
+  const {mode, setMode} = props;
+  const auth = useAuth();
   const [profileData, setProfileData] = useState([]);
   const [postsData, setPostsData] = useState([]);
-  const bearer_token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RAZ21haWwuY29tIiwiaWF0IjoxNjY1MTQyNjk3LCJleHAiOjE2NjU0MDE4OTd9._muTKXfvilaMHNSK_cBiWnG6caEzwkgvoeOiaWxDTb4";
+  const [allUsersData, setAllUsersData] = useState([])
+  const [loading, setLoading] = useState(false);
   
   try {
     const fetchPostData = async() => {
-      const url = "http://localhost:9000/api/v1/posts/";
-      const bearer = 'Bearer ' + bearer_token;
+      const url = "http://localhost:3000/api/v1/posts/";
       const result = await fetch(url, {
         method: 'POST',
         withCredentials: true,
         credentials: 'include',
         headers: {
-            'Authorization': bearer,
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ email: 'test@gmail.com' })
+        body: JSON.stringify({ email: auth.user })
         
       })
       const jsonResult = await result.json()
+      console.log(jsonResult)
       setPostsData([jsonResult]);    
     }
 
     const getProfileData = async() => {
-      const url = "http://localhost:9000/api/v1/profile/profileSummary/";
-      const bearer = 'Bearer ' + bearer_token;
+      const url = "http://localhost:3000/api/v1/profile/profileSummary/";
+      console.log(auth.user);
       const result = await fetch(url, {
         method: 'POST',
         withCredentials: true,
         credentials: 'include',
         headers: {
-            'Authorization': bearer,
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ email: 'beast@gmail.com' })  
+        body: JSON.stringify({ email: auth.user })  
       })
 
       const jsonResult = await result.json()
+      console.log(jsonResult);
       setProfileData(jsonResult.data);
     }
 
-    useEffect(() => {
-        getProfileData()
-        fetchPostData()
-      }, [])
+    const getAllUsers = async() => {
+      const url = "http://localhost:3000/api/v1/connections/allUsers/";
+      const result = await fetch(url, {
+        method: 'GET',
+        withCredentials: true,
+        credentials: 'include',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+      })
+
+      const jsonResult = await result.json()
+      console.log("Getting all users data");
+      setAllUsersData(jsonResult.data);
+    }
+
+    useEffect(  () => {
+      try {
+        setLoading(true);
+        setTimeout(() => {
+          getProfileData();
+          fetchPostData();
+          getAllUsers(); 
+          setLoading(false);
+        }, 3000);
+        
+      } catch (error) {
+        setLoading(false);
+        console.log(error);
+      }
+    }, [])
 
   } catch (error) {
     console.log(error)
@@ -62,13 +93,17 @@ const Dashboard = (props) => {
   
   return (
     <Box bgcolor={"background.default"} color={"text.primary"}>
-    <Navbar />
+    <Navbar profileData={profileData}/>
     <MyErrorBoundary>
-    <Stack direction="row" spacing={2} justifyContent="space-between">
-      <Sidebar setMode={setMode} mode={mode} profileData={profileData}/>
-      <Feed postsData={postsData}/>
-      <Rightbar />
-    </Stack>
+      { loading ? <CircularProgress size={50} sx={{flex: 1, marginTop:"40vh", marginLeft: "48vw",
+        marginBottom: "50vh",justifyContent: 'center',alignItems:'center'}} /> 
+        :  
+        <Stack direction="row" spacing={0.1} justifyContent="space-between">
+          <Sidebar setMode={setMode} mode={mode} profileData={profileData} />
+          <Feed postsData={postsData} profilePhoto={profileData.profilePhoto} />
+          <Rightbar currentUser={profileData.email} allUsersData={allUsersData} />
+        </Stack>
+      }
     </MyErrorBoundary>
   </Box>
   )
