@@ -23,9 +23,9 @@ const Interests = ['Music', 'Art', 'Sports', 'Literature', 'History',
   'Science', 'Technology', 'Gardening', 'Entertainment'
 ];
 
-export default function SelectInterests() {
-  const [interest, setInterest] = React.useState([]);
-
+export default function SelectInterests({interest,setInterest}) {
+  // const [interest, setInterest] = React.useState([]);
+console.log(Interests);
   const handleChange = (event) => {
     const {
       target: { value },
@@ -35,11 +35,14 @@ export default function SelectInterests() {
       typeof value === 'string' ? value.split(',') : value,
     );
   };
-//   console.log(interest);
+  console.log(interest);
 
   return (
     <div>
-      <FormControl sx={{ m: 1, width: 300 }}>
+      <FormControl sx={{ mt: 2, width: 250, 
+                  input: { color: 'whitesmoke', fontWeight: 'bold', textAlign: 'center' },
+                  label: { color: 'whitesmoke', fontWeight: 'bold', },
+                 }}>
         <InputLabel id="demo-multiple-checkbox-label">Select your Interests</InputLabel>
         <Select
           labelId="demo-multiple-checkbox-label"

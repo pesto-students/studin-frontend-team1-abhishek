@@ -1,14 +1,16 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import { Box, Avatar, Typography, Button, Grid, TextField } from '@mui/material';
 import Loginimage from '../Assets/Loginimage.jpg';
 import Navbar from '../Components/Navbar';
 import LoginTextfield from '../Components/LoginTextfield';
 import SelectInterests from '../Components/SelectInterests';
+import { Logincontext } from '../Components/Context/Contextprovider';
 import { useNavigate } from 'react-router-dom';
 
 export const Register = () => {
+  const { email, setEmail } = useContext(Logincontext);
   const [imageFile, setImageFile] = useState("");
-  const [email, setEmail] = useState("Email");
+  // const [email, setEmail] = useState("Email");
   const [firstName, setFirstName] = useState("First");
   const [lastName, setLastName] = useState("Last");
   const [schoolName, setSchoolName] = useState("School");
@@ -17,7 +19,7 @@ export const Register = () => {
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState(false);
   const redirect = useNavigate();
-
+console.log(interests,firstName,lastName);
   const reset = (e) => {
     // e.preventDefault();
     setImageFile('');
@@ -50,7 +52,7 @@ export const Register = () => {
     }
     if (firstName === '' || lastName === '' || email === '' || schoolName === '' || collegeName === '') {
       setError(true);
-    } else {
+    } else{
       setSubmitted(true);
       setError(false);
     }
@@ -91,27 +93,35 @@ export const Register = () => {
       backgroundRepeat: 'no-repeat',
       backgroundPosition: 'center',
       backdropFilter: "blur(3px)",
-      height: '100vh',
+      minHeight: '100vh',
 
     }}>
 
       <Navbar />
-      <Grid container marginTop={2} spacing={1} justifyContent={"center"}>
-        <Grid item xs={12} sm={12} md={10} lg={10} xl={10} >
+      <Grid container marginTop={5} spacing={1} >
+        <Grid item xs={12} sm={12} md={12} lg={12} xl={12}  >
           <form onSubmit={handleSubmit}>
             <Box
               display="flex"
               flexDirection="column"
               flex-wrap="wrap"
-              maxWidth="75%"
+              maxWidth="70%"
               alignItems="center"
               justifyContent={"center"}
               margin="auto"
               backgroundColor="#00000080"
+              opacity="0.1"
               color="whitesmoke"
               borderRadius={5}
             >
-              <Typography variant='h4' padding={1} textAlign="center">Register</Typography>
+            <Grid container marginTop={2} spacing={1} justifyContent={"center"} >
+            <Grid item xs={12} sm={12} md={12} lg={12} xl={12} justifyContent={"center"}>
+            <Box
+          display="flex"
+          flexDirection="column"
+          alignItems="center"
+          justifyContent={"center"}>
+              <Typography variant='h4' padding={1} textAlign="center">Complete Your Profile</Typography>
               <Avatar
                 alt="Remy Sharp"
                 src=""
@@ -122,18 +132,40 @@ export const Register = () => {
               <input onChange={handleImageFileChange}
                   multiple={false} type="file"/>
               {/* <LoginTextfield type="file" name="imageUrl" onChange={handleImageFileChange} /> */}
-              <LoginTextfield type="email" name='email' value={email} onChange={setEmail} placeholder={'*@*.com'} label="Enter Your Email" />
+              </Box>
+        </Grid>
+        <Grid item xs={12} sm={12} md={6} lg={6} xl={6}  >
+          <Box
+          display="flex"
+          flexDirection="column"
+          alignItems="center"
+          justifyContent={"center"}>
+              <LoginTextfield  type="email" name='email' value={email}  placeholder={'*@*.com'} label="Enter Your Email"/>
+             
               <LoginTextfield type="text" name='firstName' value={firstName} onChange={setFirstName} placeholder={'Vishal'} label="Enter Your first name" />
+              
               <LoginTextfield type="text" name='lastName' value={lastName} onChange={setLastName} placeholder='singh' label="Enter Your last name" />
+              </Box>
+              </Grid>
+              <Grid item xs={12} sm={12} md={6} lg={6} xl={6} >
+              <Box
+          display="flex"
+          flexDirection="column"
+          alignItems="center"
+          justifyContent={"center"}>
               <LoginTextfield type="text" name='schoolName' value={schoolName} onChange={setSchoolName} placeholder='Delhi Public School' label="Enter Your school name" />
               <LoginTextfield type="text" name='collegeName' value={collegeName} onChange={setCollegeName} placeholder='IIT DELHI' label="Enter Your College name" />
-              <SelectInterests />
+              <SelectInterests interest={interests} setInterest={setInterests} />
+              </Box>
+              </Grid>
+
               <Button
                 variant='contained'
                 type='submit'
                 size="large"
                 sx={{ marginTop: 2, marginBottom: 3, borderRadius: 3, }}
               >Finish</Button>
+              </Grid>
             </Box>
           </form>
         </Grid>

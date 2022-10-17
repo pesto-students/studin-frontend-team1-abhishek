@@ -59,12 +59,6 @@ export default function EmailLogin() {
             margin="auto"
             color="whitesmoke"
             borderRadius={5}
-            boxShadow={'5px 5px 5px #FFFFFF'}
-            sx={{
-              ":hover": {
-                boxShadow: "10px 10px 10px #FFFFFF"
-              }
-            }}
           >
             <Typography variant='h6' fontFamily="Times New Roman" fontSize={32} padding={"2,3,3,2"} textAlign="center" marginLeft={3}
             marginTop={3} marginRight={3}>

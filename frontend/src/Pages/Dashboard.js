@@ -28,7 +28,9 @@ const Dashboard = (props) => {
         headers: {
             'Content-Type': 'application/json'
         },
+
         body: JSON.stringify({ email: auth.user })
+
         
       })
       const jsonResult = await result.json()
