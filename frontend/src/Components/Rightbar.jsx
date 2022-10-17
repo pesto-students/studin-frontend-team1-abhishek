@@ -1,5 +1,5 @@
 import { Box, Typography, styled } from '@mui/material'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
@@ -33,15 +33,50 @@ const Rightbar = (props) => {
   const [secondary, setSecondary] = React.useState(true);
   const { allUsersData, currentUser } = props;
   const [connectionReceiver, setConnectionReceiver] = React.useState('');
-  const handleAddConnection = async (e) => {
-    // console.log(e.currentTarget.value);
+  const [acceptedConnId, setAcceptedConnId] = useState('')
+  const [myConnRequests, setMyConnRequests] = useState([]);
+
+  const handleAddConnChange = (e) => {
     setConnectionReceiver(e.currentTarget.value);
-    await addConnection(currentUser, connectionReceiver);
   }
+  const handleAcceptConnChange = (connReqId) => {
+    console.log('connReqId to accept-->', connReqId)
+    setAcceptedConnId(connReqId);
+  }
+
+  useEffect(() => {
+    if (connectionReceiver){
+      // handleAddConnection();
+      console.log("Inside UE for add");
+      console.log(connectionReceiver);
+      addConnection(currentUser, connectionReceiver);
+    }
+    return () => {
+      setConnectionReceiver('');
+    }
+  }, [connectionReceiver]);
+
+  useEffect(() => {
+    if(acceptedConnId){
+      handleAcceptConnection();
+    }
+    return () => {
+      setAcceptedConnId('');
+    }
+  }, [acceptedConnId]);
+  
+  // const handleAddConnection = () => {
+  //   if (connectionReceiver){
+  //     console.log("Inside UE for add");
+  //     console.log(connectionReceiver);
+  //     addConnection(currentUser, connectionReceiver);
+  //   }
+  // };
   
   const addConnection = async(sender, receiver) => {
     const url = "http://localhost:3000/api/v1/connections/addConnection";
-    console.log(receiver);
+    console.log('sender -->',sender);
+    console.log('receiver -->',receiver);
     const result = await fetch(url, {
       method: 'POST',
       withCredentials: true,
@@ -50,14 +85,53 @@ const Rightbar = (props) => {
           'Content-Type': 'application/json'
       },
       body: JSON.stringify({ 
-        sender: sender,
-        receiver: receiver
+        senderEmail: sender,
+        receiverEmail: receiver
        })
       
     })
     const jsonResult = await result.json()
     console.log(jsonResult);
-  }
+  };
+  const handleAcceptConnection = async () => {
+    const url = "http://localhost:3000/api/v1/connections/acceptConnection";
+    console.log('accepted Id -->',acceptedConnId);
+    const result = await fetch(url, {
+      method: 'POST',
+      withCredentials: true,
+      credentials: 'include',
+      headers: {
+          'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ 
+        connectionRequestId: acceptedConnId
+       })
+      
+    })
+    const jsonResult = await result.json()
+    console.log(jsonResult);
+  };
+  
+  const getMyConnRequests = async () => {
+    const url = "http://localhost:3000/api/v1/connections/myConnRequests";
+
+    const result = await fetch(url, {
+      method: 'GET',
+      withCredentials: true,
+      credentials: 'include',
+      headers: {
+          'Content-Type': 'application/json'
+      }
+    })
+    const jsonResult = await result.json();
+    setMyConnRequests(jsonResult.data);
+    console.log('Printing 5 Conn Reqs -->',jsonResult.data);
+  };
+
+  useEffect(() => {
+    getMyConnRequests();
+  
+  }, []);
 
   return (
     <Box bgcolor="primary.white" flex={2}  sx={{display: {xs: "none", sm: "block"} }}>
@@ -73,7 +147,7 @@ const Rightbar = (props) => {
               { allUsersData.length>0 ? allUsersData.map( (user, i) => (
                   <ListItem key={i}
                     secondaryAction={
-                      <IconButton edge="end" aria-label="add" value={user.email} onClick={handleAddConnection}>
+                      <IconButton edge="end" aria-label="add" value={user.email} onClick={(event) =>{handleAddConnChange(event);}}>
                         <PersonAddIcon />
                       </IconButton>
                     }
@@ -92,20 +166,20 @@ const Rightbar = (props) => {
                     />
                   </ListItem>                
                 )) :
-                <ListItem>No data available</ListItem>
+                <ListItem>Uh-oh! We don't have any suggestions for you today.</ListItem>
               }
                             
               <Typography sx={{ mt: 4, mb: 2 }} fontWeight={100} variant="h6" component="div">
                 Review pending invites
               </Typography>
-              { allUsersData.length>0 ? allUsersData.map( (user, i) => (
+              { myConnRequests.length>0 ? myConnRequests.map( (user, i) => (
                   <ListItem key={i}
                     secondaryAction={ 
                     <Button variant='raised' sx={{
                       ml: "30%", 
                       // border:'1px solid white'
                      }}
-                      value={user.email} onClick={handleAddConnection}>
+                      value={user.senderId.email} onClick={() =>{handleAcceptConnChange(user._id);}}>
                       Accept
                     </Button>
                     }
@@ -113,18 +187,18 @@ const Rightbar = (props) => {
                     <ListItemAvatar sx={{marginRight: "4%" }}>
                       <Avatar sx={{border: "5px solid white"}}>
                         <img 
-                        src={ user.profilePhoto}
+                        src={ user.senderId.profilePhoto}
                         height="120%" width="120%" alt="Paella dish" />
                         {/* <FolderIcon /> */}
                       </Avatar>
                     </ListItemAvatar>
                     <ListItemText
-                      primary={`${user.firstName} ${user.lastName}`}
-                      secondary= {user.schoolName}
+                      primary={`${user.senderId.firstName} ${user.senderId.lastName}`}
+                      secondary= {user.senderId.schoolName}
                     />
                   </ListItem>                
                 )) :
-                <ListItem>No data available</ListItem>
+                <ListItem>No pending connection requests</ListItem>
               }
               {/* <ListItem>Review pending invites</ListItem> */}
             </List>

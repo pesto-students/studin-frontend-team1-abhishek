@@ -54,8 +54,8 @@ const Dashboard = (props) => {
       setProfileData(jsonResult.data);
     }
 
-    const getAllUsers = async() => {
-      const url = "http://localhost:3000/api/v1/connections/allUsers/";
+    const getTop5Users = async() => {
+      const url = "http://localhost:3000/api/v1/connections/top5Users/";
       const result = await fetch(url, {
         method: 'GET',
         withCredentials: true,
@@ -76,7 +76,7 @@ const Dashboard = (props) => {
         setTimeout(() => {
           getProfileData();
           fetchPostData();
-          getAllUsers(); 
+          getTop5Users(); 
           setLoading(false);
         }, 3000);
         
