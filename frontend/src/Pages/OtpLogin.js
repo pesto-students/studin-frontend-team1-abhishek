@@ -1,6 +1,6 @@
 
 import React, { useState, useContext } from 'react'
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { Box, TextField, Typography, Button, Grid } from '@mui/material';
 import Loginimage from '../Assets/Loginimage.jpg';
 import { Logincontext } from '../Components/Context/Contextprovider';
@@ -10,9 +10,11 @@ export default function OtpLogin() {
   
   const { email, setEmail } = useContext(Logincontext);
   const [otp, setOtp] = useState("")
-  const url = "http://localhost:4000/api/v1/auth/login"
+  const url = "http://localhost:3000/api/v1/auth/login"
   const obj = { email, otp }
   const redirect = useNavigate()
+  const location = useLocation();
+  const redirectPath = location.state?.path || '/dashboard';
 
   const Login = async (e) => {
     e.preventDefault();
@@ -24,9 +26,10 @@ export default function OtpLogin() {
       body: JSON.stringify(obj)
     })
     const data = await response.json();
-    console.log(data)
+    console.log(data);
     if (data.status == 201) {
-      redirect("/dashboard")
+      // redirect("/dashboard")
+      redirect( "/dashboard", {replace: true})
     } else {
       redirect("/register")
     }

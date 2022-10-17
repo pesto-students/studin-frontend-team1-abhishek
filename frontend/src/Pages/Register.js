@@ -57,7 +57,6 @@ console.log(interests,firstName,lastName);
       setError(false);
     }
     // const email = get Current User's email id
-    // const bearer_token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RAZ21haWwuY29tIiwiaWF0IjoxNjY1MTQyNjk3LCJleHAiOjE2NjU0MDE4OTd9._muTKXfvilaMHNSK_cBiWnG6caEzwkgvoeOiaWxDTb4";
     const formData = new FormData();
     formData.append('image', imageFile);
     formData.append('userId', email);
@@ -67,18 +66,10 @@ console.log(interests,firstName,lastName);
     formData.append('collegeName', collegeName);
     formData.append('interests', interests);
     try {
-      const url = "http://localhost:4000/api/v1/auth/register";
-      // const bearer = 'Bearer ' + bearer_token;
+      const url = "http://localhost:3000/api/v1/auth/register";
       let res = await fetch(url, {
         method: "POST",
-        // body: JSON.stringify(payload),
         body: formData,
-        // withCredentials: true,
-        // credentials: 'include',
-        // headers: {
-        //   'Authorization': bearer,
-        //   // 'Content-Type': 'application/json'
-        // },
       });
       const resJson = await res.json();
       console.log(resJson);
@@ -90,12 +81,6 @@ console.log(interests,firstName,lastName);
         console.log("User registeration Unsuccessful");
         redirect("/register")
       }
-      // if (res.status === 200) {
-      //   reset()
-      //   console.log("User registered successfully");
-      // } else {
-      //   console.log("Some error occured while registering new user");
-      // }
     } catch (err) {
       console.log(err);
     }

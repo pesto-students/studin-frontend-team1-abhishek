@@ -9,6 +9,7 @@ import EmojiEmotionsIcon from '@mui/icons-material/EmojiEmotions';
 import ImageIcon from '@mui/icons-material/Image';
 import data from '@emoji-mart/data';
 import Picker from '@emoji-mart/react';
+import { useAuth } from './Auth';
 
 const style = {
   position: 'absolute',
@@ -42,7 +43,8 @@ export const PostModal = (props) => {
   const {open, handleClose, profilePhoto} = props;
   const [imageFile, setImageFile] = useState("");
   const [editorText, setEditorText] = useState("What's on your mind?");
-  const [showEmojiPicker, setShowEmojiPicker] = useState(false)
+  const [showEmojiPicker, setShowEmojiPicker] = useState(false);
+  const auth = useAuth();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -50,31 +52,23 @@ export const PostModal = (props) => {
 			return;
 		}
     // const email = get Current User's email id
-
 		const payload = {
-      user_id: 'jjagannn@gmail.com',
+      user_id: auth.user,
 			content: editorText,
       image: imageFile,
 		};
 
-    const bearer_token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImpqYWdhbm5uQGdtYWlsLmNvbSIsImlhdCI6MTY2NTc1NDM5MSwiZXhwIjoxNjY2MDEzNTkxfQ.DzePMQS9xHCgHP_e5nhh6honyUK5hzm4rIQwAbyrpPw"
     const formData = new FormData();
     formData.append('image', imageFile);
-    formData.append('user_id', 'beast@gmail.com');
+    formData.append('user_id', auth.user);
     formData.append('content', editorText);
     try {
-      const url = "http://localhost:4000/api/v1/posts/createPost";
-      const bearer = 'Bearer ' + bearer_token;
+      const url = "http://localhost:3000/api/v1/posts/createPost";
       let res = await fetch( url, {
         method: "POST",
-        // body: JSON.stringify(payload),
         body: formData,
         withCredentials: true,
         credentials: 'include',
-        headers: {
-            'Authorization': bearer,
-            // 'Content-Type': 'application/json'
-        },
       });
       let resJson = await res.json();
       if (res.status === 200) {
@@ -107,8 +101,9 @@ export const PostModal = (props) => {
   };
 
   const reset = (event) => {
+    event.preventDefault();
     setEditorText("");
-    // setImageFile("");
+    setImageFile("");
     setShowEmojiPicker(false);
     // props.clickHandler(event);
   };

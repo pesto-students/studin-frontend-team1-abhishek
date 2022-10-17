@@ -26,20 +26,20 @@ export const NewPost = (props) => {
     const {handleOpen, profilePhoto} = props;
 
     return (
-        <Box className='createNewPostArea' sx={{p:"4%", m:"1% 0% 0% 5.75%", bgcolor:"primary.main", 
+        <Box className='createNewPostArea' sx={{p:"4%", m:"1% 0% 0% 5.75%", bgcolor:"primary.light", 
           justifyContent:"space-evenly", width:"80%", height: "100%", display: "flex", flexDirection:"row", 
-          gap:5, borderRadius:4, boxShadow: "1px 1px 1.5px" }}
+          gap:5, borderRadius:4, boxShadow: "1px 1px 2px lightgrey" }}
         >
             <StyledAvatar aria-label="recipe" flex={1}>
               {/* <img src={require("../public/static/assets/images/sample-profile-icon.jpg")} height="120%" width="120%" */}
                {/* alt="Profile icon" /> */}
                <img src={profilePhoto} height="120%" width="120%" alt="Profile icon" />
             </StyledAvatar>
-            <Search flex={4} onClick={handleOpen}>
+            <Search flex={4} onClick={handleOpen} >
               <StyledInputBase placeholder='create post...' />
             </Search>
             <Button>
-              <StyledVideoCallIcon flex={1} />
+              <StyledVideoCallIcon flex={1} sx={{color:"grey"}}/>
             </Button>
         </Box>
     )

@@ -1,15 +1,18 @@
 import React, { useState, useContext } from 'react'
 import { Box, TextField, Typography, Button, Grid } from '@mui/material';
 import Loginimage from '../Assets/Loginimage.jpg';
-import { useNavigate } from 'react-router-dom';
+import {  useNavigate } from 'react-router-dom';
 import { Logincontext } from '../Components/Context/Contextprovider';
 import Navbar from '../Components/Navbar';
+import { useAuth } from '../Components/Auth';
 
 export default function EmailLogin() {
   const [useremail, setUseremail] = useState("")
   const { email, setEmail } = useContext(Logincontext);
+  const auth = useAuth();
+
   const redirect = useNavigate()
-  const url = "http://localhost:4000/api/v1/auth/sendEmailOTP"
+  const url = "http://localhost:3000/api/v1/auth/sendEmailOTP"
   const obj = { useremail }
 
   const sendOtp = async (e) => {
@@ -24,8 +27,9 @@ export default function EmailLogin() {
     const data = await response.json();
     console.log(data)
     if (data.status == 200) {
+      auth.login(useremail);
       setEmail(useremail)
-      redirect("/otp")
+      redirect("/otp", {replace: true})
     } else {
       alert("kindly check your email")
     }
@@ -33,16 +37,15 @@ export default function EmailLogin() {
   }
   return (
     <div style={{
-      backgroundImage: `url(${Loginimage})`,
-      backgroundSize: 'cover',
-      backgroundRepeat: 'no-repeat',
-      backgroundPosition: 'center',
-      backdropFilter: "blur(3px)",
-      height: '100vh'
-    }}>
+        backgroundImage: `url(${Loginimage})`,
+        backgroundSize: 'cover',
+        backgroundRepeat: 'no-repeat',
+        backgroundPosition: 'center',
+        backdropFilter: "blur(3px)",
+        height: '100vh'
+      }}>
 
       <Navbar />
-
       <Grid container marginTop={6} spacing={1}>
         <Grid item xs={12} sm={12} md={6} lg={6} xl={6} margin="auto" marginTop="7%">
           <Box

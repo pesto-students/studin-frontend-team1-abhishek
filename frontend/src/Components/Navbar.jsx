@@ -3,11 +3,18 @@ import { AppBar, Box, Toolbar, Typography, styled, InputBase } from '@mui/materi
 import Avatar from '@mui/material/Avatar';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
+import { NavLink, useNavigate } from 'react-router-dom';
+import { useAuth } from './Auth';
 
 const StyledToolbar = styled(Toolbar)({
   display: "flex",
   justifyContent: "space-between",
 });
+
+const StyledNavLink = styled(NavLink)(({theme})=>({
+  textDecoration: "none",
+  color: theme.palette.common.white
+}));
 
 const Search = styled("div")(({theme}) => ({
   // backgroundColor: "white",
@@ -48,27 +55,52 @@ const Navbar = (props, {theme}) => {
   const [open, setOpen] = useState(false);
   const [searchActive, setSearchActive] = useState(false);
   const {profileData} = props;
+  const redirect = useNavigate();
+  const auth = useAuth();
 
   const handleSearchClick = () => {
     setSearchActive(!searchActive);
-  }
+  };
+
+  const handleLogout = async () => {
+    const url = "http://localhost:3000/api/v1/auth/logout";
+    const result = await fetch(url, {
+      method: 'GET',
+      withCredentials: true,
+      credentials: 'include',
+      headers: {
+          'Content-Type': 'application/json'
+      },
+      
+    })
+    const jsonResult = await result.json()
+    console.log(jsonResult);
+    if (jsonResult.status === 200){
+      auth.logout();
+      redirect("/")
+    } else {
+      alert("Please login first!")
+    }
+  };
 
   return (
     <AppBar position="sticky">
       <StyledToolbar>
-        <img src={
-          require('../public//static/assets/images/logo-no-background.png')
-        }
-        style={{width: '80px', height: '44px'}}
-        alt="StudIn logo" 
-        />
+      <MenuItem>
+        <NavLink to='/dashboard'>
+          <img src={require('../public//static/assets/images/logo-no-background.png')}
+            style={{width: '80px', height: '44px'}} alt="StudIn logo" />
+        </NavLink>
+      </MenuItem>
+
         <Search onClick={handleSearchClick} style={{
-          backgroundColor: searchActive ? "white" : "black",
-          width: searchActive ? "40%" : "30%"
+          backgroundColor: searchActive ? "white" : "white",
+          width: searchActive ? "40%" : "30%",
+          marginRight: '8%'
           }}>
           <StyledInputBase placeholder='search...' style={{
-            color: searchActive ? "black" : "white"}}
-          />
+            color: searchActive ? "black" : "black"
+          }}/>
         </Search>
         <Icons>
           <Avatar sx={{width:30, height:30}}  
@@ -93,9 +125,13 @@ const Navbar = (props, {theme}) => {
             horizontal: 'right',
           }}
         >
-        <MenuItem>Profile</MenuItem>
-        <MenuItem>My account</MenuItem>
-        <MenuItem>Logout</MenuItem>
+        <MenuItem><StyledNavLink to='/profile'> Profile</StyledNavLink></MenuItem>
+        <MenuItem><StyledNavLink to='/dashboard'>Dashboard</StyledNavLink></MenuItem>
+        {/* <MenuItem><StyledNavLink to='/profile'>My account</StyledNavLink></MenuItem> */}
+        <MenuItem onClick={handleLogout}><StyledNavLink>Logout</StyledNavLink></MenuItem>
+        { !auth.user && (
+          <MenuItem><StyledNavLink to='/'>Login</StyledNavLink></MenuItem>
+        )}
       </Menu>
 
       </StyledToolbar>

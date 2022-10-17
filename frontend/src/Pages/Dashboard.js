@@ -7,30 +7,30 @@ import Rightbar from "../Components/Rightbar";
 import { Box, Stack } from "@mui/material";
 import MyErrorBoundary from './ErrorBoundary';
 import CircularProgress from '@mui/material/CircularProgress';
+import { theme } from '../Theme/theme';
+import { useAuth } from '../Components/Auth';
 
 const Dashboard = (props) => {
   const {mode, setMode} = props;
+  const auth = useAuth();
   const [profileData, setProfileData] = useState([]);
   const [postsData, setPostsData] = useState([]);
   const [allUsersData, setAllUsersData] = useState([])
   const [loading, setLoading] = useState(false);
-  const bearer_token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImpqYWdhbm5uQGdtYWlsLmNvbSIsImlhdCI6MTY2NTc2NzI2MCwiZXhwIjoxNjY2MDI2NDYwfQ.tMqDtRv5iaISHErExyV3Vz3er3-nk-gxf-RVuS-DxPg"
-
   
   try {
     const fetchPostData = async() => {
-      const url = "http://localhost:4000/api/v1/posts/";
-      const bearer = 'Bearer ' + bearer_token;
+      const url = "http://localhost:3000/api/v1/posts/";
       const result = await fetch(url, {
         method: 'POST',
         withCredentials: true,
         credentials: 'include',
         headers: {
-            'Authorization': bearer,
             'Content-Type': 'application/json'
         },
 
-        body: JSON.stringify({ email: 'jjagannn@gmail.com' })
+        body: JSON.stringify({ email: auth.user })
+
         
       })
       const jsonResult = await result.json()
@@ -39,17 +39,16 @@ const Dashboard = (props) => {
     }
 
     const getProfileData = async() => {
-      const url = "http://localhost:4000/api/v1/profile/profileSummary/";
-      const bearer = 'Bearer ' + bearer_token;
+      const url = "http://localhost:3000/api/v1/profile/profileSummary/";
+      console.log(auth.user);
       const result = await fetch(url, {
         method: 'POST',
         withCredentials: true,
         credentials: 'include',
         headers: {
-            'Authorization': bearer,
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ email: 'jjagannn@gmail.com' })  
+        body: JSON.stringify({ email: auth.user })  
       })
 
       const jsonResult = await result.json()
@@ -58,26 +57,18 @@ const Dashboard = (props) => {
     }
 
     const getAllUsers = async() => {
-      const url = "http://localhost:4000/api/v1/connections/allUsers/";
-      const bearer = 'Bearer ' + bearer_token;
+      const url = "http://localhost:3000/api/v1/connections/allUsers/";
       const result = await fetch(url, {
         method: 'GET',
         withCredentials: true,
         credentials: 'include',
         headers: {
-            'Authorization': bearer,
             'Content-Type': 'application/json'
         },
       })
 
       const jsonResult = await result.json()
       console.log("Getting all users data");
-      // console.log(typeof jsonResult);
-      // console.log(jsonResult);
-      // jsonResult.data.map((data)=>{
-      //   console.log(typeof data);
-      //   console.log(data);
-      // })
       setAllUsersData(jsonResult.data);
     }
 
