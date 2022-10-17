@@ -58,12 +58,6 @@ export default function OtpLogin() {
             margin="auto"
             color="whitesmoke"
             borderRadius={5}
-            boxShadow={'5px 5px 5px #FFFFFF'}
-            sx={{
-              ":hover": {
-                boxShadow: "10px 10px 10px #FFFFFF"
-              }
-            }}
           >
             <Typography variant='h6' fontFamily="Times New Roman" fontSize={32} padding={"2,3,3,2"} textAlign="center" marginLeft={3}
             marginTop={3} marginRight={3}>
@@ -95,49 +89,6 @@ export default function OtpLogin() {
               </form>
           </Box>
         </Grid>
-
-        {/* <Grid item xs={12} sm={12} md={6} lg={6} xl={6} marginTop={7}>
-          <form>
-            <Box
-              display="flex"
-              flexDirection="column"
-              flex-wrap="wrap"
-              maxWidth={450}
-              alignItems="center"
-              justifyContent={"center"}
-              margin="auto"
-              backgroundColor="#00000080"
-              color="whitesmoke"
-              borderRadius={5}
-              // boxShadow={'-10px -10px 15px #FFFFFF'}
-              // sx={{
-              //   ":hover": {
-              //     boxShadow: "-20px -20px 30px #FFFFFF"
-              //   }
-              // }}
-            >
-              <Typography variant='h4' padding={1} textAlign="center">Login</Typography>
-              <TextField
-                type={'password'}
-                variant='outlined'
-                id="standard-required"
-                placeholder='*******'
-                margin='normal'
-                label="Enter Your OTP"
-                sx={{
-                  input: { color: 'whitesmoke', fontWeight: 'bold', textAlign: 'center' },
-                  label: { color: 'whitesmoke', fontWeight: 'bold', },
-                }}
-                onChange={(e) => setOtp(e.target.value)} />
-              <Button
-                variant='contained'
-                size="large"
-                sx={{ marginTop: 2, marginBottom: 3, borderRadius: 3, }}
-                onClick={Login}
-              >Login</Button>
-            </Box>
-          </form>
-        </Grid> */}
       </Grid>
     </div>
   )
