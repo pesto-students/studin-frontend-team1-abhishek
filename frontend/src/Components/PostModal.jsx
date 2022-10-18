@@ -9,11 +9,11 @@ import EmojiEmotionsIcon from '@mui/icons-material/EmojiEmotions';
 import ImageIcon from '@mui/icons-material/Image';
 import data from '@emoji-mart/data';
 import Picker from '@emoji-mart/react';
-
+import { useAuth } from './Auth';
 
 const style = {
   position: 'absolute',
-  top: '50%',
+  top: '30%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
   width: 400,
@@ -38,38 +38,48 @@ const UserBox = styled(Box)(({theme}) => ({
   marginBottom: "20px",
 }));
 
-function uploadFile(file) {
-  fetch('https://path/to/api', {
-    // content-type header should not be specified!
-    method: 'POST',
-    body: file,
-  })
-    .then(response => response.json())
-    .then(success => {
-      // Do something with the successful response
-    })
-    .catch(error => console.log(error)
-  );
-}
-
 export const PostModal = (props) => {
   const fileRef = useRef();  
-  const {open, handleClose} = props;
+  const {open, handleClose, profilePhoto} = props;
   const [imageFile, setImageFile] = useState("");
   const [editorText, setEditorText] = useState("What's on your mind?");
-  // const [showFileOption, setShowFileOption] = useState(false)
-  const [showEmojiPicker, setShowEmojiPicker] = useState(false)
+  const [showEmojiPicker, setShowEmojiPicker] = useState(false);
+  const auth = useAuth();
 
-  const handleImageFileChange = (e) => {
-    const [file] = e.target.files;
-    console.log(file);
-  };
-
-  const handleSubmit = (e) => {
-    //Placeholder for submit action API call
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(editorText);
-    setEditorText("");
+		if (e.target !== e.currentTarget) {
+			return;
+		}
+    // const email = get Current User's email id
+		const payload = {
+      user_id: auth.user,
+			content: editorText,
+      image: imageFile,
+		};
+
+    const formData = new FormData();
+    formData.append('image', imageFile);
+    formData.append('user_id', auth.user);
+    formData.append('content', editorText);
+    try {
+      const url = "http://localhost:3000/api/v1/posts/createPost";
+      let res = await fetch( url, {
+        method: "POST",
+        body: formData,
+        withCredentials: true,
+        credentials: 'include',
+      });
+      let resJson = await res.json();
+      if (res.status === 200) {
+        reset(e)
+        console.log("Post created successfully");
+      } else {
+        console.log("Some error occured while creating post");
+      }
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   const handleChange = (e) => {
@@ -91,10 +101,18 @@ export const PostModal = (props) => {
   };
 
   const reset = (event) => {
+    event.preventDefault();
     setEditorText("");
-    // setImageFile("");
+    setImageFile("");
     setShowEmojiPicker(false);
-    props.clickHandler(event);
+    // props.clickHandler(event);
+  };
+
+  const handleImageFileChange = (e) => {
+    const [file] = e.target.files;
+    setImageFile(file);
+    console.log(file);
+    console.log(imageFile);
   };
 
   return (
@@ -109,9 +127,12 @@ export const PostModal = (props) => {
             </Typography>
             <Divider sx={{margin:"3%"}}/>
             <UserBox>
-                <Avatar 
+                {/* <Avatar 
                 src={require('../public/static/assets/images/sample-profile-icon.jpg')}
-                sx={{width: 30, height: 30}}/>
+                sx={{width: 30, height: 30}}/> */}
+                <Avatar sx={{ bgcolor: "red", width: 30, height: 30 }} aria-label="recipe">
+                  <img src={profilePhoto} height="120%" width="120%" alt="Profile icon" />
+                </Avatar>
                 {/* <Typography variant='span' fontWeight={500} color='gray' textAlign='center'>Create post</Typography> */}
             </UserBox>
             <form onSubmit={handleSubmit}>
@@ -144,19 +165,6 @@ export const PostModal = (props) => {
                   marginLeft: -40,maxWidth: "320px",borderRadius: "20px"}}
                 theme="dark" autoFocus="true" previewPosition="top"
                 title="Pick an emoji"
-                // showSkinTones={false}
-                // showPreview={false}
-                // emojiTooltip={false}
-                // enableFrequentEmojiSort={false}
-                // style={{
-                //   top: 0,
-                //   position: "absolute",
-                //   bottom: "20px",
-                //   right: "50px",
-                //   maxWidth: "250px",
-                //   width: "100%",
-                //   outline: "none"
-                // }}
               />
             </span>
           )}

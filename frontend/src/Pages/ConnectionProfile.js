@@ -1,9 +1,11 @@
-import { Box, } from '@mui/material'
-import React from 'react'
 import TabCom from '../Components/TabComponent'
-import Navbar from '../Components/Navbar'
 import ConectionProfileCom from "../Components/ConnnectionsProfileComponent"
-
+import { Box, Toolbar } from '@mui/material';
+import React from 'react';
+import Tab1 from '../Components/Tab1';
+import Navbar from '../Components/Navbar';
+import FriendsProfile from "../Components/FriendsProfile";
+import Card1 from '../Components/Card1';
 
 const ConectionProfile = () => {
   return (

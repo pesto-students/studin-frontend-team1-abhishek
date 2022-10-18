@@ -1,10 +1,11 @@
-import React from 'react'
-
-import Navbar from '../Components/Navbar'
 import EditIconCom from "../Components/EditIconComponent"
 import TabCom from "../Components/TabComponent"
-import { Box, } from "@mui/material"
 // import PopUp from '../Components/PopUp'
+import React from 'react';
+import Navbar from '../Components/Navbar';
+import Editprofilepage from "../Components/EditIcon";
+import Tab1 from "../Components/Tab1";
+import { Box, Toolbar, } from "@mui/material";
 
 export default function ProfilePage() {
   return (
