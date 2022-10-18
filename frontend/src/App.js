@@ -1,6 +1,6 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 import EmailLogin from "./Pages/EmailLogin";
-import  Dashboard  from './Pages/Dashboard';
+import Dashboard from './Pages/Dashboard';
 import ProfilePage from "./Pages/ProfilePage";
 import AllConnections from "./Pages/AllConnections";
 import ConnectionRequest from "./Pages/ConnectionRequest";

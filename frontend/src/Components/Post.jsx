@@ -17,6 +17,7 @@ import CommentOutlinedIcon from '@mui/icons-material/CommentOutlined';
 import CommentIcon from '@mui/icons-material/Comment';
 
 export const Post = (props) => {
+
   const {postsData, profilePhoto} = props;
 
   return (

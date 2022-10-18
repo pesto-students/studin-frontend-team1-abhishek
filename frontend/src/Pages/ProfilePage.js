@@ -1,3 +1,6 @@
+import EditIconCom from "../Components/EditIconComponent"
+import TabCom from "../Components/TabComponent"
+// import PopUp from '../Components/PopUp'
 import React from 'react';
 import Navbar from '../Components/Navbar';
 import Editprofilepage from "../Components/EditIcon";
@@ -10,11 +13,14 @@ export default function ProfilePage() {
       <Box sx={{
         height: '100%',
         width: '100%',
-        backgroundColor: '#F3F2EF'
+        bgcolor: "primary.main"
+
       }}>
         <Navbar />
-        <Editprofilepage />
-        <Tab1 />
+        <Box sx={{ border: "", mx: "5%", mt: "2%", bgcolor: "white" }}>
+          <EditIconCom />
+          <TabCom />
+        </Box>
       </Box>
     </div>
   )
