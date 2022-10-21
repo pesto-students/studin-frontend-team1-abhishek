@@ -1,4 +1,4 @@
-import { Box, Typography, styled } from '@mui/material'
+import { Box, Typography, styled, Fade } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
@@ -9,6 +9,7 @@ import IconButton from '@mui/material/IconButton';
 import Grid from '@mui/material/Grid';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import Button from '@mui/material/Button';
+import DoneIcon from '@mui/icons-material/Done';
 
 const Demo = styled('div')(({ theme }) => ({
   // backgroundColor: theme.palette.background.paper,
@@ -35,10 +36,33 @@ const Rightbar = (props) => {
   const [connectionReceiver, setConnectionReceiver] = React.useState('');
   const [acceptedConnId, setAcceptedConnId] = useState('')
   const [myConnRequests, setMyConnRequests] = useState([]);
+  const [clicks, setClicks] = useState([]);
+  const [acceptClicks, setAcceptClicks] = useState([]);
+  const [fade, setFade] = useState([]);
+
+  const triggerFade = () => {
+    setFade(prevState => {
+      return !prevState;
+    })
+  };
 
   const handleAddConnChange = (e) => {
     setConnectionReceiver(e.currentTarget.value);
   }
+
+  const transitionIconChange = (receiverEmail) => {
+    console.log("receiverEmail");
+    console.log(receiverEmail);
+    let result =  clicks.includes(receiverEmail)? clicks.filter(click => click !== receiverEmail): [...clicks, receiverEmail]
+    setClicks(result);
+  }
+  const transitionAcceptIconChange = (receiverEmail) => {
+    console.log("receiverEmail");
+    console.log(receiverEmail);
+    let result =  clicks.includes(receiverEmail)? clicks.filter(click => click !== receiverEmail): [...clicks, receiverEmail]
+    setAcceptClicks(result);
+  }
+
   const handleAcceptConnChange = (connReqId) => {
     console.log('connReqId to accept-->', connReqId)
     setAcceptedConnId(connReqId);
@@ -93,6 +117,7 @@ const Rightbar = (props) => {
     const jsonResult = await result.json()
     console.log(jsonResult);
   };
+
   const handleAcceptConnection = async () => {
     const url = "http://localhost:3000/api/v1/connections/acceptConnection";
     console.log('accepted Id -->',acceptedConnId);
@@ -133,6 +158,12 @@ const Rightbar = (props) => {
   
   }, []);
 
+  const checkFade = (userEmail) => {
+    if(clicks){
+      return clicks.includes(userEmail)? true: false;
+    }
+  }
+
   return (
     <Box bgcolor="primary.white" flex={2}  sx={{display: {xs: "none", sm: "block"} }}>
       <Box position="fixed">
@@ -144,11 +175,18 @@ const Rightbar = (props) => {
               <Typography sx={{ mt: 4, mb: 2 }} fontWeight={100} variant="h6" component="div">
                 Recommended connections for you
               </Typography>
-              { allUsersData.length>0 ? allUsersData.map( (user, i) => (
-                  <ListItem key={i}
+              { allUsersData.length>0 ? allUsersData.filter(user => !clicks.includes(user.email)).slice(0,5).map( (user, i) => (
+                  <Fade in={ () => { checkFade(user.email) }}
+                    style={{ transitionDelay:'500ms'}}
+                  >
+                  <ListItem key={i} onAnimationEnd={triggerFade} className={fade ? 'fadedClass': 'visibleClass'}
                     secondaryAction={
-                      <IconButton edge="end" aria-label="add" value={user.email} onClick={(event) =>{handleAddConnChange(event);}}>
-                        <PersonAddIcon />
+                      <IconButton edge="end" aria-label="add" value={user.email} onClick={(event) =>{
+                        handleAddConnChange(event); 
+                        transitionIconChange(user.email);
+                        triggerFade();
+                        }}>
+                        {clicks.includes(user.email) ? <DoneIcon /> : <PersonAddIcon />}
                       </IconButton>
                     }
                     >
@@ -164,7 +202,8 @@ const Rightbar = (props) => {
                       primary={`${user.firstName} ${user.lastName}`}
                       secondary= {user.schoolName}
                     />
-                  </ListItem>                
+                  </ListItem>   
+                  </Fade>             
                 )) :
                 <ListItem>Uh-oh! We don't have any suggestions for you today.</ListItem>
               }
@@ -172,15 +211,20 @@ const Rightbar = (props) => {
               <Typography sx={{ mt: 4, mb: 2 }} fontWeight={100} variant="h6" component="div">
                 Review pending invites
               </Typography>
-              { myConnRequests.length>0 ? myConnRequests.map( (user, i) => (
+              { myConnRequests.length>0 ? myConnRequests.filter(user => !acceptClicks.includes(user.email)).slice(0,5).map( (user, i) => (
                   <ListItem key={i}
                     secondaryAction={ 
                     <Button variant='raised' sx={{
                       ml: "30%", 
                       // border:'1px solid white'
                      }}
-                      value={user.senderId.email} onClick={() =>{handleAcceptConnChange(user._id);}}>
-                      Accept
+                      value={user.senderId.email}
+                      onClick={() =>{
+                        handleAcceptConnChange(user._id);
+                        transitionAcceptIconChange(user.email);
+                        }}
+                      >
+                      {acceptClicks.includes(user.email) ? <DoneIcon /> : 'Accept'}
                     </Button>
                     }
                     >

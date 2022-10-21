@@ -55,7 +55,7 @@ const Dashboard = (props) => {
     }
 
     const getTop5Users = async() => {
-      const url = "http://localhost:3000/api/v1/connections/top5Users/";
+      const url = "http://localhost:3000/api/v1/connections/allUsers/";
       const result = await fetch(url, {
         method: 'GET',
         withCredentials: true,

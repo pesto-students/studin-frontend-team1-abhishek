@@ -147,16 +147,19 @@ export const PostModal = (props) => {
                 variant="standard"
               />
               <Stack direction="row" gap={1} mt={2} mb={3}>
-                <EmojiEmotionsIcon color='success' onClick={handleShowEmoji}/>
-                <ImageIcon color='success' onClick={() => fileRef.current.click()}/>
+                <EmojiEmotionsIcon color='success' onClick={handleShowEmoji} style={{cursor: "pointer"}}/>
+                <ImageIcon color='success' onClick={() => fileRef.current.click()} style={{cursor: "pointer"}}/>
                 <input ref={fileRef} onChange={handleImageFileChange}
                   multiple={false} type="file" hidden />
-              </Stack>
-              <ButtonGroup variant="contained" aria-label="outlined primary button group" fullWidth>
-                <Button  onClick={handleSubmit}>
+                <Button sx={{ml: "61%", mt: "-1%", p: "1%", 
+                //  backgroundColor: "common.white",
+                //  color: "common.white"
+                 }} onClick={handleSubmit}>
                   Post
                 </Button>
-              </ButtonGroup>
+              </Stack>
+              {/* <ButtonGroup variant="contained" aria-label="outlined primary button group" fullWidth>
+              </ButtonGroup> */}
             </form>
 
             {showEmojiPicker && (
