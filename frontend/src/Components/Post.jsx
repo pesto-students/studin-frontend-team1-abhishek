@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
 import CardMedia from '@mui/material/CardMedia';
@@ -15,22 +15,69 @@ import ThumbUpOutlinedIcon from '@mui/icons-material/ThumbUpOutlined';
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import CommentOutlinedIcon from '@mui/icons-material/CommentOutlined';
 import CommentIcon from '@mui/icons-material/Comment';
+import { useDebouncedEffect } from '../Utils/Hooks/useDebouncedEffect';
+import { Grid } from '@mui/material'
 
 export const Post = (props) => {
 
   const {postsData, profilePhoto} = props;
+  const [likedPostId, setLikedPostId] = useState('');
+  const [dislikedPostId, setDislikedPostId] = useState('');
+  
+  const handleLike = (event) => {
+    console.log("Liked");
+    console.log(event.currentTarget.value);
+    setLikedPostId(event.currentTarget.value);
+  };
+
+  const handleDislike = (event) => {
+    console.log("Disliked");
+    console.log(event.currentTarget.value);
+    setLikedPostId(event.currentTarget.value);
+  };
+
+  const addLike = async (postId) => {
+    const url = "http://localhost:3000/api/v1/posts/addLike";
+
+    const result = await fetch(url, {
+      method: 'POST',
+      withCredentials: true,
+      credentials: 'include',
+      headers: {
+          'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ 
+        postId: postId
+       })
+      
+    })
+    const jsonResult = await result.json()
+    console.log(jsonResult);
+  };
+
+  useDebouncedEffect(() => {
+    if (likedPostId){
+      addLike(likedPostId);
+    }
+    return () => {
+      setLikedPostId('');
+    }
+  }, [likedPostId], 1000);
 
   return (
     <>
     { postsData.length>0 ? postsData.map((post) => (
       
-          post.data.map((dat,i)=>(   
+          post.data.map((postInfo,i)=>(   
 
             <Card sx={{margin: 5, boxShadow: "0.25px 0.25px 0.5px"}} key={i}>
             <CardHeader 
               avatar={
                 <Avatar sx={{ bgcolor: "red" }} aria-label="recipe">
-                  <img src={require("../public/static/assets/images/image1.jpg")}  height="120%" width="120%" alt="Profile icon" />
+                  <img 
+                  src={postInfo.userId.profilePhoto}
+                  // src={require("../public/static/assets/images/image1.jpg")}
+                    height="120%" width="120%" alt="Profile icon" />
                 </Avatar>
               }
               action={
@@ -38,7 +85,7 @@ export const Post = (props) => {
                   <MoreVertIcon />
                 </IconButton>
               }
-              title={dat.title}
+              title={postInfo.title}
               subheader="September 14, 2016"
             />
             <CardMedia
@@ -46,23 +93,32 @@ export const Post = (props) => {
               // height="20%"
               // maxWidth="100%"
               height="auto"
-              image={dat.imageUrl}
-              // src={dat.image_url}
+              image={postInfo.imageUrl}
+              // src={postInfo.image_url}
               // src={require("../public/static/assets/images/image1.jpg")} 
               alt="Paella dish"
             />
             <CardContent>
               <Typography variant="subtitle1" color="text.secondary">
-                {dat.content}
+                {postInfo.content}
               </Typography>
             </CardContent>
             <CardActions disableSpacing>
-              <IconButton aria-label="add to favorites">
-                <Checkbox icon={<ThumbUpOutlinedIcon />} checkedIcon={<ThumbUpIcon />} />
-              </IconButton>
-              <IconButton aria-label="add to favorites">
-                <Checkbox icon={<CommentOutlinedIcon />} checkedIcon={<CommentIcon />} />
-              </IconButton>
+              
+              <Typography paragraph>
+                <IconButton aria-label="add to favorites" value={postInfo._id} onClick={handleLike}>
+                  <Checkbox icon={<ThumbUpOutlinedIcon  />} checkedIcon={<ThumbUpIcon value={postInfo._id} onClick={handleDislike} />} />
+                </IconButton>
+                Like
+              </Typography>
+
+              <Typography paragraph marginLeft={4}>
+                <IconButton aria-label="add to favorites">
+                  <Checkbox icon={<CommentOutlinedIcon />} checkedIcon={<CommentIcon />} />
+                </IconButton>
+                Comment
+              </Typography>
+
               {/* <ExpandMoreIcon
                 // expand={expanded}
                 // onClick={handleExpandClick}
@@ -105,7 +161,7 @@ export const Post = (props) => {
             </Collapse>
           </Card>
           )
-          ))) : <div>No data available</div>
+          ))) : <div>No new posts available for today ...</div>
 
     } 
 </>

@@ -93,24 +93,29 @@ const Navbar = (props, {theme}) => {
         </NavLink>
       </MenuItem>
 
-        <Search onClick={handleSearchClick} style={{
-          backgroundColor: searchActive ? "white" : "white",
-          width: searchActive ? "40%" : "30%",
-          marginRight: '8%'
-          }}>
-          <StyledInputBase placeholder='search...' style={{
-            color: searchActive ? "black" : "black"
-          }}/>
-        </Search>
-        <Icons>
-          <Avatar sx={{width:30, height:30}}  
-          onClick={e => {setOpen(true)}}
-        />
-        </Icons>
-        <UserBox onClick={e => {setOpen(true)}} >
-          <Avatar sx={{ width: 30, height: 30 }}  />
-          {/* <Typography variant='span'>{profileData.firstName}</Typography> */}
-        </UserBox>
+        { auth.user ? 
+        <>
+          <Search onClick={handleSearchClick} style={{
+            backgroundColor: searchActive ? "white" : "white",
+            width: searchActive ? "40%" : "30%",
+            marginRight: '8%'
+            }}>
+            <StyledInputBase placeholder='search...' style={{
+              color: searchActive ? "black" : "black"
+            }}/>
+          </Search> 
+          <Icons>
+            <Avatar sx={{width:30, height:30}}  
+            onClick={e => {setOpen(true)}}
+          />
+          </Icons>
+          <UserBox onClick={e => {setOpen(true)}} >
+            <Avatar sx={{ width: 30, height: 30 }}  />
+            {/* <Typography variant='span'>{profileData.firstName}</Typography> */}
+          </UserBox>
+        </>
+        : <div></div> }
+
         <Menu
           id="demo-positioned-menu"
           aria-labelledby="demo-positioned-button"
