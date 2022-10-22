@@ -4,7 +4,7 @@ import Navbar from '../Components/Navbar'
 import Sidebar from "../Components/Sidebar";
 import Feed from "../Components/Feed";
 import Rightbar from "../Components/Rightbar";
-import { Box, Stack } from "@mui/material";
+import { Box, Stack, styled } from "@mui/material";
 import MyErrorBoundary from './ErrorBoundary';
 import CircularProgress from '@mui/material/CircularProgress';
 import { theme } from '../Theme/theme';
@@ -17,6 +17,26 @@ const Dashboard = (props) => {
   const [postsData, setPostsData] = useState([]);
   const [allUsersData, setAllUsersData] = useState([])
   const [loading, setLoading] = useState(false);
+  const [postsCount, setPostsCount] = useState(0)
+
+  const StyledCircularProgress = styled(CircularProgress)(({theme}) => ({
+    size:"50",
+    flex: "1", 
+    marginTop: "40vh",
+    marginLeft: "48vw",
+    marginBottom: "50vh",
+    justifyContent: 'center',
+    alignItems:'center'
+  }))
+  const StyledEmptySpace = styled("div")(({theme})=>({
+    size:"50",
+    flex: "1", 
+    marginTop: "40vh",
+    marginLeft: "48vw",
+    marginBottom: "50vh",
+    justifyContent: 'center',
+    alignItems:'center'
+  }))
   
   try {
     const fetchPostData = async() => {
@@ -33,6 +53,10 @@ const Dashboard = (props) => {
       })
       const jsonResult = await result.json()
       console.log(jsonResult)
+      if (jsonResult.data){
+        setPostsCount(jsonResult.data.length);
+        console.log('count',jsonResult.data.length);
+      }
       setPostsData([jsonResult]);    
     }
 
@@ -95,12 +119,14 @@ const Dashboard = (props) => {
     <Box bgcolor={"background.default"} color={"text.primary"}>
     <Navbar profileData={profileData}/>
     <MyErrorBoundary>
-      { loading ? <CircularProgress size={50} sx={{flex: 1, marginTop:"40vh", marginLeft: "48vw",
-        marginBottom: "50vh",justifyContent: 'center',alignItems:'center'}} /> 
+      { loading ? 
+      <StyledCircularProgress />
+      // <CircularProgress size={50} sx={{flex: 1, marginTop:"40vh", marginLeft: "48vw",
+      //   marginBottom: "50vh",justifyContent: 'center',alignItems:'center'}} /> 
         :  
         <Stack direction="row" spacing={0.1} justifyContent="space-between">
-          <Sidebar setMode={setMode} mode={mode} profileData={profileData} />
-          <Feed postsData={postsData} profilePhoto={profileData.profilePhoto} />
+          {profileData ? <Sidebar setMode={setMode} mode={mode} profileData={profileData} /> : <StyledEmptySpace>Empty sidebar</StyledEmptySpace> }
+          <Feed postsData={postsData} profilePhoto={profileData.profilePhoto} postsCount={postsCount}/>
           <Rightbar currentUser={profileData.email} allUsersData={allUsersData} />
         </Stack>
       }

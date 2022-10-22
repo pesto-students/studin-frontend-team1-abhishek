@@ -26,7 +26,7 @@ export const NewPost = (props) => {
     const {handleOpen, profilePhoto} = props;
 
     return (
-        <Box className='createNewPostArea' sx={{p:"4%", m:"1% 0% 0% 5.75%", bgcolor:"primary.light", 
+        <Box className='createNewPostArea' sx={{p:"4%", m:"1% 0% 0% 10%", bgcolor:"primary.light", 
           justifyContent:"space-evenly", width:"80%", height: "100%", display: "flex", flexDirection:"row", 
           gap:5, borderRadius:4, boxShadow: "1px 1px 2px lightgrey" }}
         >

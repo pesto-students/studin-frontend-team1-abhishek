@@ -27,7 +27,7 @@ export default function EmailLogin() {
     const data = await response.json();
     console.log(data)
     if (data.status == 200) {
-      auth.login(useremail);
+      // auth.login(useremail);
       setEmail(useremail)
       redirect("/otp", {replace: true})
     } else {

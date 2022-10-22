@@ -44,7 +44,16 @@ export const PostModal = (props) => {
   const [imageFile, setImageFile] = useState("");
   const [editorText, setEditorText] = useState("What's on your mind?");
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
+  const [imageUploaded, setImageUploaded] = useState(false);
   const auth = useAuth();
+
+  const handleModalClose = () => {
+    handleClose();
+    setImageFile("");
+    setEditorText("What's on your mind?");
+    setShowEmojiPicker(false);
+    setImageUploaded(false);
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -74,6 +83,10 @@ export const PostModal = (props) => {
       if (res.status === 200) {
         reset(e)
         console.log("Post created successfully");
+        // setTimeout(() => {
+        handleModalClose();
+        // }, 500);
+        
       } else {
         console.log("Some error occured while creating post");
       }
@@ -111,6 +124,7 @@ export const PostModal = (props) => {
   const handleImageFileChange = (e) => {
     const [file] = e.target.files;
     setImageFile(file);
+    setImageUploaded(true);
     console.log(file);
     console.log(imageFile);
   };
@@ -118,7 +132,7 @@ export const PostModal = (props) => {
   return (
       <Modal
           open={open}
-          onClose={handleClose}
+          onClose={handleModalClose}
           aria-labelledby="modal-modal-title"
           aria-describedby="modal-modal-description">
           <Box sx={style}>
@@ -148,16 +162,19 @@ export const PostModal = (props) => {
               />
               <Stack direction="row" gap={1} mt={2} mb={3}>
                 <EmojiEmotionsIcon color='success' onClick={handleShowEmoji} style={{cursor: "pointer"}}/>
-                <ImageIcon color='success' onClick={() => fileRef.current.click()} style={{cursor: "pointer"}}/>
+                <ImageIcon color='success' onClick={() => fileRef.current.click()} style={{cursor: "pointer", marginLeft: "3%"}}/>
                 <input ref={fileRef} onChange={handleImageFileChange}
                   multiple={false} type="file" hidden />
-                <Button sx={{ml: "61%", mt: "-1%", p: "1%", 
+                
+                <Button sx={{ml: "58%", mt: "-1%", p: "1%", 
                 //  backgroundColor: "common.white",
                 //  color: "common.white"
                  }} onClick={handleSubmit}>
                   Post
                 </Button>
+                
               </Stack>
+              {imageUploaded ? <Typography variant='p' fontWeight={500} color="primary.main">Image uploaded!</Typography> : <div></div> }
               {/* <ButtonGroup variant="contained" aria-label="outlined primary button group" fullWidth>
               </ButtonGroup> */}
             </form>

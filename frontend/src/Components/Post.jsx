@@ -73,7 +73,10 @@ export const Post = (props) => {
             <CardHeader 
               avatar={
                 <Avatar sx={{ bgcolor: "red" }} aria-label="recipe">
-                  <img src={require("../public/static/assets/images/image1.jpg")}  height="120%" width="120%" alt="Profile icon" />
+                  <img 
+                  src={postInfo.userId.profilePhoto}
+                  // src={require("../public/static/assets/images/image1.jpg")}
+                    height="120%" width="120%" alt="Profile icon" />
                 </Avatar>
               }
               action={
