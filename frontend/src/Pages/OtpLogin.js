@@ -5,6 +5,7 @@ import { Box, TextField, Typography, Button, Grid } from '@mui/material';
 import Loginimage from '../Assets/Loginimage.jpg';
 import { Logincontext } from '../Components/Context/Contextprovider';
 import Navbar from '../Components/Navbar';
+import { useAuth } from '../Components/Auth';
 
 export default function OtpLogin() {
   
@@ -15,6 +16,7 @@ export default function OtpLogin() {
   const redirect = useNavigate()
   const location = useLocation();
   const redirectPath = location.state?.path || '/dashboard';
+  const auth = useAuth();
 
   const Login = async (e) => {
     e.preventDefault();
@@ -29,6 +31,7 @@ export default function OtpLogin() {
     console.log(data);
     if (data.status == 201) {
       // redirect("/dashboard")
+      auth.login(email);
       redirect( "/dashboard", {replace: true})
     } else {
       redirect("/register")

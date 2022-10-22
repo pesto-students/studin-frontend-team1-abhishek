@@ -10,7 +10,7 @@ import PeopleIcon from '@mui/icons-material/People';
 import ModeNightIcon from '@mui/icons-material/ModeNight';
 
 const Sidebar = ({mode, setMode, profileData}) => {
-  const {firstName, lastName, schoolName, profilePhoto} = profileData;
+  const {firstName, lastName, schoolName, profilePhoto, connections} = profileData;
 
   return (
     <Box bgcolor="primary.white" flex={1.5} ml={3} p={2} sx={{display: {xs: "none", sm: "block"}}}>
@@ -31,7 +31,7 @@ const Sidebar = ({mode, setMode, profileData}) => {
               <ListItemIcon>
                 <WorkIcon />
               </ListItemIcon>
-              <ListItemText primary="Position title" />
+              <ListItemText primary="Student" />
           </ListItem>
           <ListItem disablePadding>
               <ListItemIcon>
@@ -43,7 +43,7 @@ const Sidebar = ({mode, setMode, profileData}) => {
               <ListItemIcon>
                 <PeopleIcon />
               </ListItemIcon>
-              <ListItemText primary="Connections" />
+              <ListItemText primary={`${connections ? connections.length : ""} Connections`} />
           </ListItem>
           <ListItem disablePadding>
               <ListItemIcon>
