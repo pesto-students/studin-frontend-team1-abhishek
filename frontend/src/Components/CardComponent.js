@@ -4,7 +4,7 @@ import CommentIcon from '@mui/icons-material/Comment';
 import React from 'react'
 
 
-function CardCom() {
+function CardComponent() {
   return (
     // <Box sx={{ border: "ridge", Align: "center" }}>
     <Box flex={4} p={2}>
@@ -55,4 +55,4 @@ function CardCom() {
   )
 }
 
-export default CardCom
+export default CardComponent

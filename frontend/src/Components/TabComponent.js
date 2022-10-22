@@ -8,9 +8,10 @@ import CardCom from "./CardComponent";
 
 
 
+
+
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
-
   return (
     <div
       role="tabpanel"
@@ -34,7 +35,8 @@ TabPanel.propTypes = {
 };
 
 
-const TabCom = () => {
+const TabComponent = () => {
+
 
   const [value, setValue] = useState(0);
   return (
@@ -66,7 +68,6 @@ const TabCom = () => {
           borderRadius: ""
         }}>
           <CardCom />
-
         </Toolbar>
       </TabPanel>
       <TabPanel value={value} index={1}>
@@ -81,9 +82,8 @@ const TabCom = () => {
       <TabPanel value={value} index={2} >
         <AboutCom sx={{ mx: "20%" }} />
       </TabPanel>
-
     </div>
   )
 }
 
-export default TabCom
+export default TabComponent
