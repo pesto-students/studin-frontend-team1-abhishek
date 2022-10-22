@@ -9,10 +9,14 @@ import React from 'react'
 
 import EditIcon from '@mui/icons-material/Edit';
 import Divider from '@mui/material/Divider';
+import { GlobalInfo } from "../Pages/ProfilePage"
+import { useContext } from 'react';
 
-
-function EditIconCom() {
+function EditIconComponent() {
+  const { userdata } = useContext(GlobalInfo);
+  console.log("user data arha h kya", userdata)
   const [open, setOpen] = React.useState(false);
+  console.log(userdata)
   // const [selectedValue, setSelectedValue] = React.useState(true);
   const handleClose = () => {
     setOpen(false)
@@ -39,16 +43,19 @@ function EditIconCom() {
                 border: "3px solid white",
                 variant: "danish"
               }}
-                src='https://images.pexels.com/photos/1243046/pexels-photo-1243046.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2' />
+                src={userdata.profilePhoto}
+              // src='https://images.pexels.com/photos/1243046/pexels-photo-1243046.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'
+              />
 
             </Box>
+
 
           </Box>
         </Grid>
 
         <Grid item lg={12} md={12} sm={12} xs={12} sx={{ border: "", mx: "3%" }}>
           <Box sx={{ display: "flex", justifyContent: "right", border: "", }}>
-            <EditIcon sx={{ p: 1, fontSize: "30px", mr: "", mt: 1, cursor: "pointer", "&:hover": { bgcolor: "lightgray" }, borderRadius: "50%" }}
+            <EditIcon sx={{ p: 1, fontSize: "40px", mr: "", mt: 1, cursor: "pointer", "&:hover": { bgcolor: "lightgray" }, borderRadius: "50%" }}
               onClick={() => setOpen(true)}
             />
           </Box>
@@ -57,31 +64,17 @@ function EditIconCom() {
         <Grid item lg={4} md={4} sm={6} xs={6} sx={{ border: "", mx: "3%", }}>
 
           <Typography sx={{ display: "flex", justifyContent: "", mt: "2%", fontWeight: "bold", fontSize: "1.3rem", }}>
-            Danish Khan
+            {userdata.firstName} {userdata.lastName}
           </Typography>
           <Typography sx={{}}>
-            K.G.M National High School
+            {userdata.schoolName}
           </Typography>
         </Grid>
-        {/* <Grid item lg={9} md={8} sm={7} xs={5} mt={2} sx={{ border: "", mx: "" }}>
-              <Box sx={{ display: "flex", justifyContent: "right", }}>
-                <EditIcon sx={{ p: 1, fontSize: "30px", mr: "", mt: 2, cursor: "pointer", "&:hover": { bgcolor: "lightgray" }, borderRadius: "50%" }}
-                  onClick={() => setOpen(true)}
-                />
-              </Box>
-              <Typography sx={{ display: "flex", justifyContent: "right", mr: "", pr: "" }}>
-                <IconButton aria-label="add to favorites">
-                  <Typography sx={{ color: theme.palette.common.black }} >
-                    Edit
-                  </Typography>
-                </IconButton>
-              </Typography>
-            </Grid> */}
+
         <Grid item lg={12} md={12} ms={12} mx={12} sx={{ mt: "2%", }}>
           <Divider color="black" sx={{}} />
 
         </Grid>
-
 
       </Grid>
       <Dialog open={open}
@@ -92,4 +85,4 @@ function EditIconCom() {
   )
 }
 
-export default EditIconCom
+export default EditIconComponent

@@ -1,11 +1,10 @@
-import TabCom from '../Components/TabComponent'
-import ConectionProfileCom from "../Components/ConnnectionsProfileComponent"
-import { Box, Toolbar } from '@mui/material';
+
+import { Box } from '@mui/material';
 import React from 'react';
-import Tab1 from '../Components/Tab1';
+import TabComponent from '../Components/TabComponent';
 import Navbar from '../Components/Navbar';
-import FriendsProfile from "../Components/FriendsProfile";
-import Card1 from '../Components/Card1';
+import ConnnectionsProfileComponent from '../Components/ConnnectionsProfileComponent';
+
 
 const ConectionProfile = () => {
   return (
@@ -18,8 +17,8 @@ const ConectionProfile = () => {
     }}>
       <Navbar />
       <Box sx={{ border: 1, mx: "5%", mt: "2%", bgcolor: "white" }}>
-        <ConectionProfileCom />
-        <TabCom />
+        <ConnnectionsProfileComponent />
+        <TabComponent />
       </Box>
 
     </Box>

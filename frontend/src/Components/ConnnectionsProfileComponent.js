@@ -4,7 +4,7 @@ import { Box } from '@mui/system'
 import React from 'react'
 
 
-function ConectionProfileCom() {
+function ConnnectionsProfileComponent() {
   return (
 
     <Box>
@@ -69,4 +69,4 @@ function ConectionProfileCom() {
   )
 }
 
-export default ConectionProfileCom
+export default ConnnectionsProfileComponent

@@ -1,7 +1,11 @@
 import { Divider, Grid, Typography, Box, } from '@mui/material'
 import React from 'react'
+import { GlobalInfo } from "../Pages/ProfilePage"
+import { useContext } from 'react';
 
 const AboutCom = () => {
+  const { userdata } = useContext(GlobalInfo);
+
   return (
     <Box
       sx={{
@@ -17,19 +21,20 @@ const AboutCom = () => {
         <Grid container sx={{ border: "", }}>
           <Grid item lg={12} md={12} sm={12} xs={12} sx={{ my: "1%", }}>
             <Typography sx={{ ml: "2%", }}>
-              Name : Danish Viquar Khan
+              Name : {userdata.firstName} {userdata.lastName
+              }
             </Typography>
             <Divider sx={{ borderColor: "secondary.light", ml: "2%", mr: "60%" }} />
           </Grid>
           <Grid item lg={12} md={12} sm={12} xs={12} sx={{}}>
             <Typography sx={{ ml: "2%", bgcolor: "", width: "50%", borderRadius: "5px" }} >
-              School  : K.G.M National High School
+              School  : {userdata.schoolName}
             </Typography>
             <Divider sx={{ borderColor: "secondary.light", ml: "2%", mr: "60%" }} />
           </Grid>
           <Grid item lg={12} md={12} sm={12} xs={12} sx={{ my: "1%" }}>
             <Typography sx={{ ml: "2%", bgcolor: "", width: "50%", borderRadius: "5px" }}>
-              College  : D.N.Patel College of Engineering Shahada
+              College  : {userdata.collegeName}
             </Typography>
             <Divider sx={{ borderColor: "secondary.light", ml: "2%", mr: "60%" }} />
           </Grid>
