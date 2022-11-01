@@ -10,7 +10,7 @@ export default function ProfilePage() {
 
   const [cartdata, setCartdata] = useState({});
   const getdatabuy = async () => {
-    const res = await fetch("http://localhost:4000/api/v1/profile/profileDetails", {
+    const res = await fetch("http://localhost:3000/api/v1/profile/profileDetails", {
       method: "GET",
       headers: {
         Accept: "application/json",

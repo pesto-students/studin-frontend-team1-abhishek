@@ -1,5 +1,5 @@
-import React, { useState, useContext } from 'react'
-import { Box, Avatar, Typography, Button, Grid, TextField } from '@mui/material';
+import React, { useState, useContext, useEffect } from 'react'
+import { Box, Avatar, Typography, Button, Grid, } from '@mui/material';
 import Loginimage from '../Assets/Loginimage.jpg';
 import Navbar from '../Components/Navbar';
 import LoginTextfield from '../Components/LoginTextfield';
@@ -18,8 +18,20 @@ export const Register = () => {
   const [interests, setInterests] = useState([]);
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState(false);
+  const [preview, setPreview] = useState("")
   const redirect = useNavigate();
-console.log(interests,firstName,lastName);
+  console.log(interests, firstName, lastName);
+  useEffect(() => {
+    if (imageFile) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setPreview(reader.result)
+      };
+      reader.readAsDataURL(imageFile);
+    } else {
+      setPreview(null);
+    }
+  },[imageFile]);
   const reset = (e) => {
     // e.preventDefault();
     setImageFile('');
@@ -52,7 +64,7 @@ console.log(interests,firstName,lastName);
     }
     if (firstName === '' || lastName === '' || email === '' || schoolName === '' || collegeName === '') {
       setError(true);
-    } else{
+    } else {
       setSubmitted(true);
       setError(false);
     }
@@ -114,57 +126,56 @@ console.log(interests,firstName,lastName);
               color="whitesmoke"
               borderRadius={5}
             >
-            <Grid container marginTop={2} spacing={1} justifyContent={"center"} >
-            <Grid item xs={12} sm={12} md={12} lg={12} xl={12} justifyContent={"center"}>
-            <Box
-          display="flex"
-          flexDirection="column"
-          alignItems="center"
-          justifyContent={"center"}>
-              <Typography variant='h4' padding={1} textAlign="center">Complete Your Profile</Typography>
-              <Avatar
-                alt="Remy Sharp"
-                src=""
-                // type="file"
-                sx={{ width: 80, height: 80 }}
-              >
-              </Avatar>
-              <input onChange={handleImageFileChange}
-                  multiple={false} type="file"/>
-              {/* <LoginTextfield type="file" name="imageUrl" onChange={handleImageFileChange} /> */}
-              </Box>
-        </Grid>
-        <Grid item xs={12} sm={12} md={6} lg={6} xl={6}  >
-          <Box
-          display="flex"
-          flexDirection="column"
-          alignItems="center"
-          justifyContent={"center"}>
-              <LoginTextfield  type="email" name='email' value={email}  placeholder={'*@*.com'} label="Enter Your Email"/>
-             
-              <LoginTextfield type="text" name='firstName' value={firstName} onChange={setFirstName} placeholder={'Vishal'} label="Enter Your first name" />
-              
-              <LoginTextfield type="text" name='lastName' value={lastName} onChange={setLastName} placeholder='singh' label="Enter Your last name" />
-              </Box>
-              </Grid>
-              <Grid item xs={12} sm={12} md={6} lg={6} xl={6} >
-              <Box
-          display="flex"
-          flexDirection="column"
-          alignItems="center"
-          justifyContent={"center"}>
-              <LoginTextfield type="text" name='schoolName' value={schoolName} onChange={setSchoolName} placeholder='Delhi Public School' label="Enter Your school name" />
-              <LoginTextfield type="text" name='collegeName' value={collegeName} onChange={setCollegeName} placeholder='IIT DELHI' label="Enter Your College name" />
-              <SelectInterests interest={interests} setInterest={setInterests} />
-              </Box>
-              </Grid>
+              <Grid container marginTop={2} spacing={1} justifyContent={"center"} >
+                <Grid item xs={12} sm={12} md={12} lg={12} xl={12} justifyContent={"center"}>
+                  <Box
+                    display="flex"
+                    flexDirection="column"
+                    alignItems="center"
+                    justifyContent={"center"}>
+                    <Typography variant='h4' padding={1} textAlign="center">Complete Your Profile</Typography>
+                    <Avatar
+                      alt="Remy Sharp"
+                      src={preview}
+                      // type="file"
+                      sx={{ width: 80, height: 80 }}
+                    >
+                    </Avatar>
+                    <input onChange={handleImageFileChange}
+                      multiple={false} type="file" />
+                  </Box>
+                </Grid>
+                <Grid item xs={12} sm={12} md={6} lg={6} xl={6}  >
+                  <Box
+                    display="flex"
+                    flexDirection="column"
+                    alignItems="center"
+                    justifyContent={"center"}>
+                    <LoginTextfield type="email" name='email' value={email} placeholder={'*@*.com'} label="Enter Your Email" />
 
-              <Button
-                variant='contained'
-                type='submit'
-                size="large"
-                sx={{ marginTop: 2, marginBottom: 3, borderRadius: 3, }}
-              >Finish</Button>
+                    <LoginTextfield type="text" name='firstName' value={firstName} onChange={setFirstName} placeholder={'Vishal'} label="Enter Your first name" />
+
+                    <LoginTextfield type="text" name='lastName' value={lastName} onChange={setLastName} placeholder='singh' label="Enter Your last name" />
+                  </Box>
+                </Grid>
+                <Grid item xs={12} sm={12} md={6} lg={6} xl={6} >
+                  <Box
+                    display="flex"
+                    flexDirection="column"
+                    alignItems="center"
+                    justifyContent={"center"}>
+                    <LoginTextfield type="text" name='schoolName' value={schoolName} onChange={setSchoolName} placeholder='Delhi Public School' label="Enter Your school name" />
+                    <LoginTextfield type="text" name='collegeName' value={collegeName} onChange={setCollegeName} placeholder='IIT DELHI' label="Enter Your College name" />
+                    <SelectInterests interest={interests} setInterest={setInterests} />
+                  </Box>
+                </Grid>
+
+                <Button
+                  variant='contained'
+                  type='submit'
+                  size="large"
+                  sx={{ marginTop: 2, marginBottom: 3, borderRadius: 3, }}
+                >Finish</Button>
               </Grid>
             </Box>
           </form>

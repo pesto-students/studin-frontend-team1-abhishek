@@ -30,7 +30,7 @@ function EditIconComponent() {
               position="absolute"
               component="img"
               height="300"
-              src="https://images.unsplash.com/photo-1563991655280-cb95c90ca2fb?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80"
+              src={userdata.coverPhoto}
               alt="Paella dish"
             /><Box>
               <Avatar sx={{
