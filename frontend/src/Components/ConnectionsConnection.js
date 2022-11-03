@@ -1,15 +1,13 @@
-import { Avatar, Box, Grid, Typography } from '@mui/material'
-import { useNavigate } from 'react-router-dom';
+import React from 'react'
+import { Avatar, Box, Grid, Typography, } from '@mui/material'
+
 import Divider from '@mui/material/Divider';
-import { GlobalInfo } from "../Pages/ProfilePage"
+import { GlobalInfo } from "../Pages/ConnectionProfile"
 import { useContext } from 'react';
 
-
-const ConnectionsCom = () => {
-  const navigate = useNavigate();
-
-  const { userDanish } = useContext(GlobalInfo);
-  console.log(" connections data arha h kya", userDanish)
+const ConnectionsConnection = () => {
+  const { userConnection } = useContext(GlobalInfo);
+  console.log(" connections data arha h kya", userConnection)
   return (
     <Box sx={{
       height: '100%',
@@ -17,7 +15,7 @@ const ConnectionsCom = () => {
     }}>
       <>
         {
-          userDanish.allconnections.connections.map((item) =>
+          userConnection.connections.map((item) =>
             <Grid container >
               <Grid item lg={12} md={12} sm={12} xs={12} sx={{ mx: "", alignItems: "center", }} >
                 <Grid container sx={{ bgcolor: "white", }} >
@@ -26,12 +24,12 @@ const ConnectionsCom = () => {
 
                     <Grid item lg={12} md={12} sm={12} xs={12} >
 
-                      <Box sx={{ display: "flex", m: "1%", cursor: "pointer" }} onClick={() => navigate(`/connectionprofile/${item._id}`)} >
+                      <Box sx={{ display: "flex", m: "1%" }}>
 
                         <Avatar sx={{ width: "7vw", height: "7vw", }} src={item.profilePhoto} />
                         <Box sx={{ width: "100%" }}>
                           <Typography sx={{ border: "", fontSize: "15px", ml: "2%", mt: "1%", fontWeight: "bold" }}>
-                            {item.firstName}  {item.lastName}
+                            {item.firstName} {item.lastName}
                           </Typography>
                           <Typography sx={{ fontSize: "12px", ml: "2%" }}>
                             {item.schoolName}
@@ -45,14 +43,14 @@ const ConnectionsCom = () => {
 
                 </Grid>
               </Grid>
-
             </Grid>
+
           )
         }
-        <div sx={{ ml: "2%" }} onClick={() => navigate(`/connections`)}>See All Connections</div>
+        {/* <Link sx={{ ml: "2%" }} href="#">See All Connections</Link> */}
       </>
     </Box>
   )
 }
 
-export default ConnectionsCom
+export default ConnectionsConnection

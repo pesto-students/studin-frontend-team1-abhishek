@@ -1,27 +1,49 @@
 
 import { Box } from '@mui/material';
-import React from 'react';
-import TabComponent from '../Components/TabComponent';
+import React, { createContext, useEffect, useState } from 'react';
+// import TabComponent from '../Components/TabComponent';
 import Navbar from '../Components/Navbar';
 import ConnnectionsProfileComponent from '../Components/ConnnectionsProfileComponent';
-
-
+import ConnectionsTab from "../Components/ConnectionsTab"
+import { useParams } from 'react-router-dom';
+export const GlobalInfo = createContext();
 const ConectionProfile = () => {
+  const [connection, setConnection] = useState('');
+  const { id } = useParams()
+  const getconnectionsdetails = async () => {
+    const res = await fetch(`http://localhost:4000/api/v1/profile/connection/${id}`, {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+      },
+      credentials: "include"
+    });
+
+    const data = await res.json();
+    // console.log(data, "single connection aarha h")
+    setConnection(data)
+
+    // console.log(danish, "danish profile page m aarha h ");
+  }
+  useEffect(() => {
+    getconnectionsdetails()
+  }, [])
+  console.log(connection)
+
   return (
-    <Box sx={{
-      height: '100%',
-      width: '100%',
-      bgcolor: "primary.main"
-
-
-    }}>
-      <Navbar />
-      <Box sx={{ border: 1, mx: "5%", mt: "2%", bgcolor: "white" }}>
-        <ConnnectionsProfileComponent />
-        <TabComponent />
+    <GlobalInfo.Provider value={{ userConnection: connection }}>
+      <Box sx={{
+        height: '100%',
+        width: '100%',
+        bgcolor: "primary.main"
+      }}>
+        <Navbar />
+        <Box sx={{ border: 1, mx: "5%", mt: "2%", bgcolor: "white" }}>
+          <ConnnectionsProfileComponent />
+          <ConnectionsTab />
+        </Box>
       </Box>
-
-    </Box>
+    </GlobalInfo.Provider>
 
   )
 }
