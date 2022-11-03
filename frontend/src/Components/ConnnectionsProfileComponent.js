@@ -2,11 +2,12 @@
 import { Avatar, Button, CardMedia, Divider, Grid, Typography } from '@mui/material'
 import { Box } from '@mui/system'
 import React from 'react'
-
-
+import { GlobalInfo } from "../Pages/ConnectionProfile"
+import { useContext } from 'react';
 function ConnnectionsProfileComponent() {
+  const { userConnection } = useContext(GlobalInfo);
+  // console.log("user data arha h kya connection profile me", userConnection)
   return (
-
     <Box>
       <Grid container >
         <Grid item lg={12} md={12} sm={12} xs={12} sx={{ mx: "", mt: "", alignItems: "center", }} >
@@ -28,7 +29,7 @@ function ConnnectionsProfileComponent() {
                 border: "3px solid white",
                 variant: "danish"
               }}
-                src='https://images.pexels.com/photos/1243046/pexels-photo-1243046.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2' />
+                src={userConnection.profilePhoto} />
 
             </Box>
 
@@ -36,22 +37,22 @@ function ConnnectionsProfileComponent() {
         </Grid>
 
         <Grid item lg={12} md={12} sm={12} xs={12} sx={{ border: "", mx: "3%" }}>
-          <Box sx={{ display: "flex", justifyContent: "left", border: "", ml: "20%" }}>
-            <Button>
-              <Typography sx={{ color: "black", backgroundColor: "green", borderRadius: "5px" }}>
+          <Box sx={{ display: "flex", justifyContent: "right", border: "", ml: "" }}>
+            <Button sx={{ display: "flex", alignItem: "left", }}>
+              <Typography sx={{ color: "black", backgroundColor: "green", borderRadius: "5px", p: "5px", color: "white" }}>
                 Connected
               </Typography>
             </Button>
           </Box>
 
         </Grid>
-        <Grid item lg={4} md={4} sm={6} xs={6} sx={{ border: "", mx: "3%", }}>
-
+        <Grid item lg={4} md={4} sm={6} xs={6} sx={{ border: "1 px solid black", mx: "3%", }}>
           <Typography sx={{ display: "flex", justifyContent: "", mt: "2%", fontWeight: "bold", fontSize: "1.3rem", }}>
-            Danish Khan
+            {userConnection.firstName},{userConnection.lastName}
+
           </Typography>
           <Typography sx={{}}>
-            K.G.M National High School
+            {userConnection.schoolName}
           </Typography>
         </Grid>
 

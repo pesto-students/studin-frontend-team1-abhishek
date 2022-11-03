@@ -1,16 +1,13 @@
-import { Avatar, Box, Grid, Typography } from '@mui/material'
-import { useNavigate } from 'react-router-dom';
-import Divider from '@mui/material/Divider';
-import { GlobalInfo } from "../Pages/ProfilePage"
+import React from 'react'
+import { GlobalInfo } from "../Pages/AllConnections"
 import { useContext } from 'react';
+import { Avatar, Box, Divider, Grid, Typography } from '@mui/material';
 
-
-const ConnectionsCom = () => {
-  const navigate = useNavigate();
-
+const AllConnectionsComponent = () => {
   const { userDanish } = useContext(GlobalInfo);
-  console.log(" connections data arha h kya", userDanish)
+  console.log("  Allconnections data arha h kya", userDanish)
   return (
+    // <div>Hello there</div>
     <Box sx={{
       height: '100%',
       width: '100%',
@@ -26,7 +23,7 @@ const ConnectionsCom = () => {
 
                     <Grid item lg={12} md={12} sm={12} xs={12} >
 
-                      <Box sx={{ display: "flex", m: "1%", cursor: "pointer" }} onClick={() => navigate(`/connectionprofile/${item._id}`)} >
+                      <Box sx={{ display: "flex", m: "1%", cursor: "pointer" }} >
 
                         <Avatar sx={{ width: "7vw", height: "7vw", }} src={item.profilePhoto} />
                         <Box sx={{ width: "100%" }}>
@@ -49,10 +46,11 @@ const ConnectionsCom = () => {
             </Grid>
           )
         }
-        <div sx={{ ml: "2%" }} onClick={() => navigate(`/connections`)}>See All Connections</div>
+        {/* <div sx={{ ml: "2%" }} onClick={() => navigate(`/connections`)}>See All Connections</div> */}
       </>
     </Box>
+
   )
 }
 
-export default ConnectionsCom
+export default AllConnectionsComponent

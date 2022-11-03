@@ -2,10 +2,9 @@ import { Box, Tab, Tabs, Toolbar, Typography } from '@mui/material'
 import { useState } from 'react';
 import React from 'react'
 import PropTypes from 'prop-types';
-import ConnectionsCom from "./ConnectionsComponent";
-import AboutCom from './AboutComponent';
-import CardCom from "./CardComponent";
-
+import ConnectionsAbout from "./ConnectionsAbout";
+import ConnectionsCard from "./ConnectionsCard";
+import ConnectionsConnection from "./ConnectionsConnection"
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -64,7 +63,7 @@ const TabComponent = () => {
           flexDirection: "column", mx: "", border: "", mt: "2 % ",
           borderRadius: ""
         }}>
-          <CardCom />
+          <ConnectionsCard />
         </Toolbar>
       </TabPanel>
       <TabPanel value={value} index={1}>
@@ -72,12 +71,12 @@ const TabComponent = () => {
           flexDirection: "column", mx: "", border: "", mt: "2 % ",
           borderRadius: ""
         }}>
-          <ConnectionsCom />
+          <ConnectionsConnection />
         </Toolbar>
 
       </TabPanel>
       <TabPanel value={value} index={2} >
-        <AboutCom sx={{ mx: "20%" }} />
+        <ConnectionsAbout sx={{ mx: "20%" }} />
       </TabPanel>
     </div>
   )

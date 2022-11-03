@@ -24,20 +24,33 @@ export default function ProfilePage() {
 
     if (data) {
       setCartdata(data)
-
-
-    } else {
-      console.log("data cart main hain");
-
     }
-    console.log(cartdata);
-
   };
   useEffect(() => {
     getdatabuy();
   }, []);
+
+  const [danish, setDanish] = useState([]);
+  const getdatabuy1 = async () => {
+    const res = await fetch("http://localhost:4000/api/v1/profile/allConnections", {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+      },
+      credentials: "include"
+    });
+
+    const data = await res.json();
+
+    setDanish(data)
+    console.log(danish, "danish profile page m aarha h ");
+  }
+  useEffect(() => {
+    getdatabuy1();
+  }, []);
+
   return (
-    <GlobalInfo.Provider value={{ userdata: cartdata }}>
+    <GlobalInfo.Provider value={{ userdata: cartdata, userDanish: danish }}>
       <Box sx={{
         height: '100%',
         width: '100%',
