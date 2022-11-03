@@ -10,7 +10,9 @@ export default function ProfilePage() {
 
   const [cartdata, setCartdata] = useState({});
   const getdatabuy = async () => {
+
     let accessToken = localStorage.getItem('accessToken');
+    
     const res = await fetch( process.env.REACT_APP_API_URL + "/api/v1/profile/profileDetails", {
       method: "GET",
       headers: {
