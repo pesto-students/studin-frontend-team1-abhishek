@@ -11,7 +11,7 @@ export default function OtpLogin() {
   
   const { email, setEmail } = useContext(Logincontext);
   const [otp, setOtp] = useState("")
-  const url = "http://localhost:3000/api/v1/auth/login"
+  const url =  process.env.REACT_APP_API_URL + "/api/v1/auth/login"
   const obj = { email, otp }
   const redirect = useNavigate()
   const location = useLocation();
@@ -28,8 +28,14 @@ export default function OtpLogin() {
       body: JSON.stringify(obj)
     })
     const data = await response.json();
-    console.log(data);
+
     if (data.status == 201) {
+
+      localStorage.setItem('accessToken', data.accessToken);
+      localStorage.setItem('userEmail', data.userEmail);
+      localStorage.setItem('userId', data.userId);
+      
+      console.log("cookie received -->", data);
       // redirect("/dashboard")
       auth.login(email);
       redirect( "/dashboard", {replace: true})

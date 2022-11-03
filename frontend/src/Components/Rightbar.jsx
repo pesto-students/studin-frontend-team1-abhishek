@@ -32,13 +32,14 @@ const AcceptButton = styled('span')(({theme}) => ({
 const Rightbar = (props) => {
   const [dense, setDense] = React.useState(false);
   const [secondary, setSecondary] = React.useState(true);
-  const { allUsersData, currentUser } = props;
+  const { currentUser } = props;
   const [connectionReceiver, setConnectionReceiver] = React.useState('');
   const [acceptedConnId, setAcceptedConnId] = useState('')
   const [myConnRequests, setMyConnRequests] = useState([]);
   const [clicks, setClicks] = useState([]);
   const [acceptClicks, setAcceptClicks] = useState([]);
   const [fade, setFade] = useState([]);
+  const [allUsersData, setAllUsersData] = useState([]);
 
   const triggerFade = () => {
     setFade(prevState => {
@@ -98,15 +99,17 @@ const Rightbar = (props) => {
   // };
   
   const addConnection = async(sender, receiver) => {
-    const url = "http://localhost:3000/api/v1/connections/addConnection";
+    const url =  process.env.REACT_APP_API_URL + "/api/v1/connections/addConnection";
+    let accessToken = localStorage.getItem('accessToken');
     console.log('sender -->',sender);
     console.log('receiver -->',receiver);
     const result = await fetch(url, {
       method: 'POST',
-      withCredentials: true,
-      credentials: 'include',
+      // withCredentials: true,
+      // credentials: 'include',
       headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          "Authorization": `Bearer ${accessToken}`
       },
       body: JSON.stringify({ 
         senderEmail: sender,
@@ -119,14 +122,16 @@ const Rightbar = (props) => {
   };
 
   const handleAcceptConnection = async () => {
-    const url = "http://localhost:3000/api/v1/connections/acceptConnection";
+    const url =  process.env.REACT_APP_API_URL + "/api/v1/connections/acceptConnection";
+    let accessToken = localStorage.getItem('accessToken');
     console.log('accepted Id -->',acceptedConnId);
     const result = await fetch(url, {
       method: 'POST',
-      withCredentials: true,
-      credentials: 'include',
+      // withCredentials: true,
+      // credentials: 'include',
       headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          "Authorization": `Bearer ${accessToken}`
       },
       body: JSON.stringify({ 
         connectionRequestId: acceptedConnId
@@ -137,15 +142,35 @@ const Rightbar = (props) => {
     console.log(jsonResult);
   };
   
-  const getMyConnRequests = async () => {
-    const url = "http://localhost:3000/api/v1/connections/myConnRequests";
+  const getRecommendedConns = async () => {
+    const url =  process.env.REACT_APP_API_URL + "/api/v1/recommendations/recommendedConnections";
+    let accessToken = localStorage.getItem('accessToken');
 
     const result = await fetch(url, {
       method: 'GET',
-      withCredentials: true,
-      credentials: 'include',
+      // withCredentials: true,
+      // credentials: 'include',
       headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          "Authorization": `Bearer ${accessToken}`
+      }
+    })
+    const jsonResult = await result.json();
+    setAllUsersData(jsonResult.data);
+    console.log('Printing 5 Conn Reqs -->',jsonResult.data);
+  };
+
+  const getMyConnRequests = async () => {
+    const url =  process.env.REACT_APP_API_URL + "/api/v1/connections/myConnRequests";
+    let accessToken = localStorage.getItem('accessToken');
+
+    const result = await fetch(url, {
+      method: 'GET',
+      // withCredentials: true,
+      // credentials: 'include',
+      headers: {
+          'Content-Type': 'application/json',
+          "Authorization": `Bearer ${accessToken}`
       }
     })
     const jsonResult = await result.json();
@@ -154,8 +179,9 @@ const Rightbar = (props) => {
   };
 
   useEffect(() => {
+    getRecommendedConns();
     getMyConnRequests();
-  
+
   }, []);
 
   const checkFade = (userEmail) => {

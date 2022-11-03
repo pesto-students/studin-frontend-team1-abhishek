@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
 import CardMedia from '@mui/material/CardMedia';
@@ -17,34 +17,72 @@ import CommentOutlinedIcon from '@mui/icons-material/CommentOutlined';
 import CommentIcon from '@mui/icons-material/Comment';
 import { useDebouncedEffect } from '../Utils/Hooks/useDebouncedEffect';
 import { Grid } from '@mui/material'
+import { useAuth } from './Auth';
 
 export const Post = (props) => {
 
-  const {postsData, profilePhoto} = props;
+  const { profilePhoto} = props;
   const [likedPostId, setLikedPostId] = useState('');
   const [dislikedPostId, setDislikedPostId] = useState('');
+  const [likedPosts, setLikedPosts] = useState([]);
+  const [disLikedPosts, setDisLikedPosts] = useState([]);
+  const [postsCount, setPostsCount] = useState(0);
+  const [postsData, setPostsData] = useState([]);
+  let userEmail = localStorage.getItem('userEmail');
+  let userId = localStorage.getItem('userId');
+  const auth = useAuth();
   
   const handleLike = (event) => {
-    console.log("Liked");
-    console.log(event.currentTarget.value);
+    // console.log("Liked");
+    // console.log(event.currentTarget.value);
     setLikedPostId(event.currentTarget.value);
+    // setLikedPosts([...likedPosts,event.currentTarget.value])
   };
 
   const handleDislike = (event) => {
-    console.log("Disliked");
-    console.log(event.currentTarget.value);
-    setLikedPostId(event.currentTarget.value);
+    // console.log("Removing like");
+    // console.log(event.currentTarget.value);
+    setDislikedPostId(event.currentTarget.value);
+    // setDisLikedPosts([...disLikedPosts, event.currentTarget.value])
   };
 
-  const addLike = async (postId) => {
-    const url = "http://localhost:3000/api/v1/posts/addLike";
 
+  const fetchPostData = async() => {
+    const url =  process.env.REACT_APP_API_URL + "/api/v1/posts/";
+    let accessToken = localStorage.getItem('accessToken');
     const result = await fetch(url, {
       method: 'POST',
-      withCredentials: true,
-      credentials: 'include',
+      // withCredentials: true,
+      // credentials: 'include',
       headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          "Authorization": `Bearer ${accessToken}`
+      },
+
+      body: JSON.stringify({ email: userEmail })
+
+      
+    })
+    const jsonResult = await result.json()
+    console.log(jsonResult)
+    if (jsonResult.data){
+      setPostsCount(jsonResult.data.length);
+      console.log('count',jsonResult.data.length);
+    }
+    setPostsData([jsonResult]);    
+  }
+
+  const addLike = async (postId) => {
+    const url =  process.env.REACT_APP_API_URL + "/api/v1/posts/addLike";
+    let accessToken = localStorage.getItem('accessToken');
+    console.log("adding like");
+    const result = await fetch(url, {
+      method: 'POST',
+      // withCredentials: true,
+      // credentials: 'include',
+      headers: {
+          'Content-Type': 'application/json',
+          "Authorization": `Bearer ${accessToken}`
       },
       body: JSON.stringify({ 
         postId: postId
@@ -55,20 +93,73 @@ export const Post = (props) => {
     console.log(jsonResult);
   };
 
+  const disLike = async (postId) => {
+    const url =  process.env.REACT_APP_API_URL + "/api/v1/posts/disLike";
+    let accessToken = localStorage.getItem('accessToken');
+    console.log('accessToken from local storage --> ',accessToken);
+    const result = await fetch(url, {
+      method: 'POST',
+      // withCredentials: true,
+      // credentials: 'include',
+
+      headers: {
+          'Content-Type': 'application/json',
+          "Authorization": `Bearer ${accessToken}`
+      },
+      body: JSON.stringify({ 
+        postId: postId
+       })
+      
+    })
+    const jsonResult = await result.json()
+    console.log(jsonResult);
+  };
+
+  useEffect(() => {
+    fetchPostData();
+  }, [])
+  
+
   useDebouncedEffect(() => {
+    // fetchPostData();
     if (likedPostId){
+
       addLike(likedPostId);
+      setTimeout(() => {
+        fetchPostData();
+      }, 500);
+      
     }
-    return () => {
-      setLikedPostId('');
+      return (...args) => {
+        console.log("Cleanup of liked data")
+        setLikedPostId('');
+        console.log("calling post data");
+        fetchPostData();
+      }
+    
+    }, [likedPostId], 1000);
+
+  useDebouncedEffect(() => {
+    // fetchPostData();
+    if (dislikedPostId){
+      disLike(dislikedPostId);
+      setTimeout(() => {
+        fetchPostData();
+      }, 500);
     }
-  }, [likedPostId], 1000);
+    return (...args) => {
+      console.log("Cleanup of disliked data")
+      setDislikedPostId('');
+      console.log("calling post data");
+      fetchPostData();
+    }
+  }, [dislikedPostId], 1000);
 
   return (
     <>
     { postsData.length>0 ? postsData.map((post) => (
       
-          post.data.map((postInfo,i)=>(   
+          post.data.map((postInfo,i)=>(
 
             <Card sx={{margin: 5, boxShadow: "0.25px 0.25px 0.5px"}} key={i}>
             <CardHeader 
@@ -104,13 +195,21 @@ export const Post = (props) => {
               </Typography>
             </CardContent>
             <CardActions disableSpacing>
-              
-              <Typography paragraph>
-                <IconButton aria-label="add to favorites" value={postInfo._id} onClick={handleLike}>
-                  <Checkbox icon={<ThumbUpOutlinedIcon  />} checkedIcon={<ThumbUpIcon value={postInfo._id} onClick={handleDislike} />} />
-                </IconButton>
-                Like
-              </Typography>
+              { postInfo.likes.includes(userId) ?
+                <Typography paragraph>
+                  <IconButton aria-label="add to favorites" value={postInfo._id} onClick={handleDislike}>
+                    <ThumbUpIcon value={postInfo._id}/>
+                  </IconButton>
+                  You have liked
+                </Typography>
+                :
+                <Typography paragraph>
+                  <IconButton aria-label="remove from favorites" value={postInfo._id} onClick={handleLike}>
+                    <ThumbUpOutlinedIcon value={postInfo._id}/>
+                  </IconButton>
+                  Like
+                </Typography>
+              }
 
               <Typography paragraph marginLeft={4}>
                 <IconButton aria-label="add to favorites">

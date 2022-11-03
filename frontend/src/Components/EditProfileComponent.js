@@ -42,14 +42,16 @@ const EditProfileCom = () => {
     formData.append('collegeName', collegeName);
     formData.append('interests', interests);
     try {
-      const url = "http://localhost:4000/api/v1/profile/profileDetails"
+      const url =  process.env.REACT_APP_API_URL + "/api/v1/profile/profileDetails";
+      let accessToken = localStorage.getItem('accessToken');
       let res = await fetch(url, {
         method: "PUT",
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
+          "Authorization": `Bearer ${accessToken}`
         },
-        credentials: "include",
+        // credentials: "include",
 
         body: formData,
 

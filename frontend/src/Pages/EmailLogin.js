@@ -12,7 +12,7 @@ export default function EmailLogin() {
   const auth = useAuth();
 
   const redirect = useNavigate()
-  const url = "http://localhost:3000/api/v1/auth/sendEmailOTP"
+  const url =  process.env.REACT_APP_API_URL + "/api/v1/auth/sendEmailOTP"
   const obj = { useremail }
 
   const sendOtp = async (e) => {
@@ -20,7 +20,7 @@ export default function EmailLogin() {
     const response = await fetch(url, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify(obj)
     })

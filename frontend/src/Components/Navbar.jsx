@@ -57,19 +57,22 @@ const Navbar = (props, {theme}) => {
   const {profileData} = props;
   const redirect = useNavigate();
   const auth = useAuth();
+  let userEmail = localStorage.getItem('userEmail');
 
   const handleSearchClick = () => {
     setSearchActive(!searchActive);
   };
 
   const handleLogout = async () => {
-    const url = "http://localhost:3000/api/v1/auth/logout";
+    const url =  process.env.REACT_APP_API_URL + "/api/v1/auth/logout";
+    let accessToken = localStorage.getItem('accessToken');
     const result = await fetch(url, {
       method: 'GET',
-      withCredentials: true,
-      credentials: 'include',
+      // withCredentials: true,
+      // credentials: 'include',
       headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          "Authorization": `Bearer ${accessToken}`
       },
       
     })
@@ -77,6 +80,7 @@ const Navbar = (props, {theme}) => {
     console.log(jsonResult);
     if (jsonResult.status === 200){
       auth.logout();
+
       redirect("/")
     } else {
       alert("Please login first!")
@@ -93,7 +97,7 @@ const Navbar = (props, {theme}) => {
         </NavLink>
       </MenuItem>
 
-        { auth.user ? 
+        { userEmail ? 
         <>
           <Search onClick={handleSearchClick} style={{
             backgroundColor: searchActive ? "white" : "white",
@@ -134,7 +138,7 @@ const Navbar = (props, {theme}) => {
         <MenuItem><StyledNavLink to='/dashboard'>Dashboard</StyledNavLink></MenuItem>
         {/* <MenuItem><StyledNavLink to='/profile'>My account</StyledNavLink></MenuItem> */}
         <MenuItem onClick={handleLogout}><StyledNavLink>Logout</StyledNavLink></MenuItem>
-        { !auth.user && (
+        { !userEmail && (
           <MenuItem><StyledNavLink to='/'>Login</StyledNavLink></MenuItem>
         )}
       </Menu>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import Navbar from '../Components/Navbar'
 import Sidebar from "../Components/Sidebar";
 import Feed from "../Components/Feed";
@@ -17,7 +17,9 @@ const Dashboard = (props) => {
   const [postsData, setPostsData] = useState([]);
   const [allUsersData, setAllUsersData] = useState([])
   const [loading, setLoading] = useState(false);
-  const [postsCount, setPostsCount] = useState(0)
+  const [postsCount, setPostsCount] = useState(0);
+  // let profileDataMemoized = [];
+  // let profileDataMemoized = useMemo(() => getProfileData(), [profileData]);
 
   const StyledCircularProgress = styled(CircularProgress)(({theme}) => ({
     size:"50",
@@ -40,16 +42,19 @@ const Dashboard = (props) => {
   
   try {
     const fetchPostData = async() => {
-      const url = "http://localhost:3000/api/v1/posts/";
+      const url =  process.env.REACT_APP_API_URL + "/api/v1/posts/";
+      let accessToken = localStorage.getItem('accessToken');
+      let userEmail = localStorage.getItem('userEmail');
       const result = await fetch(url, {
         method: 'POST',
-        withCredentials: true,
-        credentials: 'include',
+        // withCredentials: true,
+        // credentials: 'include',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            "Authorization": `Bearer ${accessToken}`
         },
 
-        body: JSON.stringify({ email: auth.user })
+        body: JSON.stringify({ email: userEmail })
 
         
       })
@@ -63,31 +68,37 @@ const Dashboard = (props) => {
     }
 
     const getProfileData = async() => {
-      const url = "http://localhost:3000/api/v1/profile/profileSummary/";
-      console.log(auth.user);
+      const url =  process.env.REACT_APP_API_URL + "/api/v1/profile/profileSummary/";
+      let accessToken = localStorage.getItem('accessToken');
+      let userEmail = localStorage.getItem('userEmail');
+      // console.log(auth.user);
       const result = await fetch(url, {
         method: 'POST',
-        withCredentials: true,
-        credentials: 'include',
+        // withCredentials: true,
+        // credentials: 'include',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            "Authorization": `Bearer ${accessToken}`
         },
-        body: JSON.stringify({ email: auth.user })  
+        body: JSON.stringify({ email: userEmail })  
       })
 
-      const jsonResult = await result.json()
+      const jsonResult = await result.json();
       console.log(jsonResult);
       setProfileData(jsonResult.data);
+      return jsonResult.data;
     }
 
     const getTop5Users = async() => {
-      const url = "http://localhost:3000/api/v1/connections/allUsers/";
+      const url =  process.env.REACT_APP_API_URL + "/api/v1/connections/allUsers/";
+      let accessToken = localStorage.getItem('accessToken');
       const result = await fetch(url, {
         method: 'GET',
-        withCredentials: true,
-        credentials: 'include',
+        // withCredentials: true,
+        // credentials: 'include',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            "Authorization": `Bearer ${accessToken}`
         },
       })
 
@@ -98,19 +109,21 @@ const Dashboard = (props) => {
 
     useEffect(  () => {
       try {
-        setLoading(true);
-        setTimeout(() => {
-          getProfileData();
-          fetchPostData();
-          getTop5Users(); 
+        console.log("useEffect hitting infinitely ...");
+        if (profileData.length === 0){
+          setLoading(true);
+          setTimeout(() => {
+            getProfileData();
+            fetchPostData();
+            getTop5Users(); 
+          }, 3000);
           setLoading(false);
-        }, 3000);
-        
+        }      
       } catch (error) {
         setLoading(false);
         console.log(error);
       }
-    }, [])
+    }, []);
 
   } catch (error) {
     console.log(error)

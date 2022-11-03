@@ -66,7 +66,7 @@ console.log(interests,firstName,lastName);
     formData.append('collegeName', collegeName);
     formData.append('interests', interests);
     try {
-      const url = "http://localhost:3000/api/v1/auth/register";
+      const url =  process.env.REACT_APP_API_URL + "/api/v1/auth/register";
       let res = await fetch(url, {
         method: "POST",
         body: formData,
@@ -76,6 +76,9 @@ console.log(interests,firstName,lastName);
       if (resJson.status == 200) {
         console.log("User registered successfully");
         // reset()
+        localStorage.setItem('accessToken', resJson.accessToken);
+        localStorage.setItem('userEmail', resJson.userEmail);
+        localStorage.setItem('userId', resJson.userId);
         redirect("/dashboard")
       } else {
         console.log("User registeration Unsuccessful");

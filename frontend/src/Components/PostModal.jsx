@@ -10,6 +10,7 @@ import ImageIcon from '@mui/icons-material/Image';
 import data from '@emoji-mart/data';
 import Picker from '@emoji-mart/react';
 import { useAuth } from './Auth';
+import LoadingButton from '@mui/lab/LoadingButton';
 
 const style = {
   position: 'absolute',
@@ -45,6 +46,7 @@ export const PostModal = (props) => {
   const [editorText, setEditorText] = useState("What's on your mind?");
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const [imageUploaded, setImageUploaded] = useState(false);
+  const [buttonLoading, setButtonLoading] = useState(false);
   const auth = useAuth();
 
   const handleModalClose = () => {
@@ -56,39 +58,53 @@ export const PostModal = (props) => {
   }
 
   const handleSubmit = async (e) => {
+    setButtonLoading(true);
     e.preventDefault();
 		if (e.target !== e.currentTarget) {
 			return;
 		}
     // const email = get Current User's email id
-		const payload = {
-      user_id: auth.user,
-			content: editorText,
-      image: imageFile,
-		};
+		// const payload = {
+    //   user_id: auth.user,
+		// 	content: editorText,
+    //   image: imageFile,
+		// };
 
     const formData = new FormData();
+    console.log("no image attached");
+    console.log(imageFile);
+    let userId = localStorage.getItem('userId');
+
     formData.append('image', imageFile);
-    formData.append('user_id', auth.user);
+    formData.append('user_id', userId);
     formData.append('content', editorText);
     try {
-      const url = "http://localhost:3000/api/v1/posts/createPost";
+      const url =  process.env.REACT_APP_API_URL + "/api/v1/posts/createPost";
+      let accessToken = localStorage.getItem('accessToken');
       let res = await fetch( url, {
         method: "POST",
         body: formData,
-        withCredentials: true,
-        credentials: 'include',
+        headers: {
+          "Authorization": `Bearer ${accessToken}`
+        }
+        // withCredentials: true,
+        // credentials: 'include',
       });
       let resJson = await res.json();
-      if (res.status === 200) {
+      console.log('resJson --> ');
+      console.log(resJson);
+      if (resJson.status === 200) {
         reset(e)
         console.log("Post created successfully");
         // setTimeout(() => {
         handleModalClose();
+        setButtonLoading(false);
         // }, 500);
         
       } else {
         console.log("Some error occured while creating post");
+        alert("Post creation failed! Make sure the file size is lesser than 6 mb")
+        setButtonLoading(false);
       }
     } catch (err) {
       console.log(err);
@@ -163,16 +179,24 @@ export const PostModal = (props) => {
               <Stack direction="row" gap={1} mt={2} mb={3}>
                 <EmojiEmotionsIcon color='success' onClick={handleShowEmoji} style={{cursor: "pointer"}}/>
                 <ImageIcon color='success' onClick={() => fileRef.current.click()} style={{cursor: "pointer", marginLeft: "3%"}}/>
-                <input ref={fileRef} onChange={handleImageFileChange}
+                <input ref={fileRef} onChange={handleImageFileChange} size="6" accept=".png,.jpg,.jpeg"
                   multiple={false} type="file" hidden />
                 
-                <Button sx={{ml: "58%", mt: "-1%", p: "1%", 
-                //  backgroundColor: "common.white",
-                //  color: "common.white"
-                 }} onClick={handleSubmit}>
-                  Post
-                </Button>
-                
+                {
+                  buttonLoading ? 
+                    <LoadingButton loading variant="outlined" sx={{ml: "58%", mt: "-1%", p: "1%",
+                    //  backgroundColor: "common.white",
+                     color: "common.black"}}>
+                      Loading
+                    </LoadingButton>
+                  :
+                    <Button sx={{ml: "58%", mt: "-1%", p: "1%", 
+                    //  backgroundColor: "common.white",
+                    //  color: "common.white"
+                    }} onClick={handleSubmit}>
+                      Post
+                    </Button>
+                }
               </Stack>
               {imageUploaded ? <Typography variant='p' fontWeight={500} color="primary.main">Image uploaded!</Typography> : <div></div> }
               {/* <ButtonGroup variant="contained" aria-label="outlined primary button group" fullWidth>
