@@ -11,7 +11,7 @@ const ConectionProfile = () => {
   const [connection, setConnection] = useState('');
   const { id } = useParams()
   const getconnectionsdetails = async () => {
-    const res = await fetch(`http://localhost:4000/api/v1/profile/connection/${id}`, {
+    const res = await fetch(process.env.REACT_APP_API_URL + `/api/v1/profile/connection/${id}`, {
       method: "GET",
       headers: {
         Accept: "application/json",

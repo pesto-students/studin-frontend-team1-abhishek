@@ -88,9 +88,9 @@ export const Register = () => {
       if (resJson.status == 200) {
         console.log("User registered successfully");
         // reset()
-        localStorage.setItem('accessToken', resJson.accessToken);
-        localStorage.setItem('userEmail', resJson.userEmail);
-        localStorage.setItem('userId', resJson.userId);
+        window.localStorage.setItem('accessToken', resJson.accessToken);
+        window.localStorage.setItem('userEmail', resJson.userEmail);
+        window.localStorage.setItem('userId', resJson.userId);
         redirect("/dashboard")
       } else {
         console.log("User registeration Unsuccessful");

@@ -31,9 +31,9 @@ export default function OtpLogin() {
 
     if (data.status == 201) {
 
-      localStorage.setItem('accessToken', data.accessToken);
-      localStorage.setItem('userEmail', data.userEmail);
-      localStorage.setItem('userId', data.userId);
+      window.localStorage.setItem('accessToken', data.accessToken);
+      window.localStorage.setItem('userEmail', data.userEmail);
+      window.localStorage.setItem('userId', data.userId);
       
       console.log("cookie received -->", data);
       // redirect("/dashboard")

@@ -32,7 +32,7 @@ function App() {
               <Route path="/" element={<EmailLogin />}></Route>
               <Route path="/dashboard" element={<RequireAuth><Dashboard setMode={setMode} mode={mode} /></RequireAuth>}></Route>
               <Route path="/profile" element={<RequireAuth><ProfilePage /></RequireAuth>}></Route>
-              <Route path="/connections" element={<AllConnections />}></Route>
+              <Route path="/connections" element={<RequireAuth><AllConnections /></RequireAuth>}></Route>
               <Route path="/connection-request" element={<ConnectionRequest />}></Route>
               <Route path="/otp" element={<OtpLogin />}></Route>
               <Route path="/register" element={<Register />}></Route>
