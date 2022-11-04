@@ -31,9 +31,7 @@ export const NewPost = (props) => {
           gap:5, borderRadius:4, boxShadow: "1px 1px 2px lightgrey" }}
         >
             <StyledAvatar aria-label="recipe" flex={1}>
-              {/* <img src={require("../public/static/assets/images/sample-profile-icon.jpg")} height="120%" width="120%" */}
-               {/* alt="Profile icon" /> */}
-               <img src={profilePhoto} height="120%" width="120%" alt="Profile icon" />
+               <img src={profilePhoto || require('../public/static/assets/images/placeholder3.png')} height="120%" width="120%" alt="Profile icon" />
             </StyledAvatar>
             <Search flex={4} onClick={handleOpen} >
               <StyledInputBase placeholder='create post...' />

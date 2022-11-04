@@ -12,7 +12,9 @@ import Divider from '@mui/material/Divider';
 import { GlobalInfo } from "../Pages/ProfilePage"
 import { useContext } from 'react';
 
-function EditIconComponent() {
+function EditIconComponent(props) {
+
+  const {updateProfileFunc} = props;
   const { userdata } = useContext(GlobalInfo);
   console.log("user data arha h kya", userdata)
   const [open, setOpen] = React.useState(false);
@@ -21,6 +23,7 @@ function EditIconComponent() {
   const handleClose = () => {
     setOpen(false)
   };
+
   return (
     <Box>
       <Grid container >
@@ -30,8 +33,8 @@ function EditIconComponent() {
               position="absolute"
               component="img"
               height="300"
-              src={userdata.coverPhoto}
-              alt="Paella dish"
+              src={userdata.coverPhoto || require('../public/static/assets/images/defaultCover.jpg')}
+              alt="Add a cover photo using the Edit icon"
             /><Box>
               <Avatar sx={{
                 // width: "15vw", height: "15vw", borderStyle: "",
@@ -79,7 +82,7 @@ function EditIconComponent() {
       </Grid>
       <Dialog open={open}
         onClose={handleClose}>
-        <EditProfileCom />
+        <EditProfileCom handleClose={handleClose} updateProfileFunc={updateProfileFunc} />
       </Dialog>
     </Box>
   )

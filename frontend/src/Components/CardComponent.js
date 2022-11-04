@@ -19,7 +19,7 @@ function CardComponent() {
             <IconButton aria-label="settings">
             </IconButton>
           }
-          title="Shrimp and Chorizo Paella" />
+          title="" />
         <CardContent>
           <Typography >
             This impressive paella is a perfect party dish and a fun meal to cook
@@ -31,7 +31,7 @@ function CardComponent() {
           component="img"
           height="20%"
           image="https://images.unsplash.com/photo-1664575262619-b28fef7a40a4?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1yZWxhdGVkfDN8fHxlbnwwfHx8fA%3D%3D&auto=format&fit=crop&w=600&q=60"
-          alt="Paella dish"
+          alt="Card"
         />
 
         <CardActions disableSpacing>

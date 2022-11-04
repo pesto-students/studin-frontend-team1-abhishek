@@ -40,7 +40,7 @@ const AboutCom = () => {
           </Grid>
           <Grid item lg={12} md={12} sm={12} xs={12} sx={{}}>
             <Typography sx={{ ml: "2%", bgcolor: "", width: "50%", borderRadius: "5px", border: "", mb: 1 }}>
-              Intrest   :
+              Interests  : { userdata.interests ? userdata.interests : ""}
             </Typography>
             <Divider sx={{ borderColor: "secondary.light", ml: "2%", mr: "60%" }} />
           </Grid>

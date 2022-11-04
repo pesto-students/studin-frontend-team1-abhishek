@@ -9,6 +9,7 @@ export const GlobalInfo = createContext();
 export default function ProfilePage() {
 
   const [cartdata, setCartdata] = useState({});
+
   const getdatabuy = async () => {
 
     let accessToken = localStorage.getItem('accessToken');
@@ -25,17 +26,16 @@ export default function ProfilePage() {
     });
 
     const data = await res.json();
-
-
     // if (data) {
     setCartdata(data)
     // }
   };
   useEffect(() => {
-    // if (Object.keys(cartdata).length === 0){
-    getdatabuy();
-    // }
-  }, []);
+    console.log("Triggering cartdata when empty");
+    if (Object.keys(cartdata).length === 0){
+      getdatabuy();
+    }
+  }, [cartdata]);
 
   const [danish, setDanish] = useState([]);
   
@@ -73,7 +73,7 @@ export default function ProfilePage() {
       }}>
         <Navbar />
         <Box sx={{ border: "", mx: "5%", mt: "2%", bgcolor: "white" }}>
-          <EditIconComponent />
+          <EditIconComponent updateProfileFunc={getdatabuy} />
           <TabComponent />
         </Box>
       </Box>

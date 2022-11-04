@@ -40,7 +40,7 @@ const ConectionProfile = () => {
         <Navbar />
         <Box sx={{ border: 1, mx: "5%", mt: "2%", bgcolor: "white" }}>
           <ConnnectionsProfileComponent />
-          <ConnectionsTab />
+          <ConnectionsTab connectionId={id} />
         </Box>
       </Box>
     </GlobalInfo.Provider>

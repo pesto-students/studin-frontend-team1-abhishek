@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import ConnectionsAbout from "./ConnectionsAbout";
 import ConnectionsCard from "./ConnectionsCard";
 import ConnectionsConnection from "./ConnectionsConnection"
+import { ThirdPartyPosts } from './ThirdPartyPosts';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -31,9 +32,9 @@ TabPanel.propTypes = {
 };
 
 
-const TabComponent = () => {
+const TabComponent = (props) => {
 
-
+  const {connectionId} = props;
   const [value, setValue] = useState(0);
   return (
     <div>
@@ -63,7 +64,9 @@ const TabComponent = () => {
           flexDirection: "column", mx: "", border: "", mt: "2 % ",
           borderRadius: ""
         }}>
-          <ConnectionsCard />
+          {/* <ConnectionsCard /> */}
+          <ThirdPartyPosts connectionId={connectionId}/>
+          
         </Toolbar>
       </TabPanel>
       <TabPanel value={value} index={1}>

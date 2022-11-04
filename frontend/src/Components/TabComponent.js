@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import ConnectionsCom from "./ConnectionsComponent";
 import AboutCom from './AboutComponent';
 import CardCom from "./CardComponent";
+import { MyPosts } from './MyPosts';
 
 
 function TabPanel(props) {
@@ -64,7 +65,8 @@ const TabComponent = () => {
           flexDirection: "column", mx: "", border: "", mt: "2 % ",
           borderRadius: ""
         }}>
-          <CardCom />
+          {/* <CardCom /> */}
+          <MyPosts />
         </Toolbar>
       </TabPanel>
       <TabPanel value={value} index={1}>

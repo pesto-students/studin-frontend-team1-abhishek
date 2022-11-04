@@ -14,9 +14,6 @@ const Feed = (props) => {
     <Stack bgcolor="primary.white" flex={4} p={1.5}>
       <NewPost handleOpen={handleOpen} profilePhoto={profilePhoto}/>
       <PostModal open={open} handleClose={handleClose} profilePhoto={profilePhoto}/>
-
-      {/* {postsData.length > 0 ? 
-      <> */}
       <Stack direction="column" spacing={0.1} justifyContent="space-evenly">
         <Box className='feedExistingPosts' style={{flexGrow: "1"}}>
           <Post postsData={postsData} />
@@ -28,16 +25,6 @@ const Feed = (props) => {
           No further posts to show
         </div>
       </Stack>
-
-      {/* </>
-      : <div  style={{height: '100vh', visibility : 'hidden', backgroundColor: "white"}}>Displaying data</div>} */}
-
-      {/* <Box className='feedExistingPosts' style={{visibility : postsData.length>1 ?  'visible':'hidden', flexShrink: "8"}}>
-        <Post postsData={postsData} />
-      </Box>
-      <div  style={{color: "white",height: '100vh', visibility : postsData.length > 1 ? 'hidden':'visible', backgroundColor: "white",  flexGrow: "20"}}>
-        Displaying data
-      </div> */}
     </Stack>
   )
 }

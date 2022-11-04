@@ -7,12 +7,17 @@ import { useContext } from 'react';
 import { useState } from 'react';
 let theme = createTheme();
 
-const EditProfileCom = () => {
+const EditProfileCom = (props) => {
+
+  const { handleClose, updateProfileFunc } = props;
 
   const { userdata } = useContext(GlobalInfo);
-  const userinterest = userdata.interests.length>0 ? userdata.interests.split(",") : "";
+  if (Object.keys(userdata).length === 0){
+    updateProfileFunc();
+  }
+  const userinterest = userdata.interests ? userdata.interests.split(",") : "";
   const [profilePhoto, setProfilePhoto] = useState("" || userdata.profilePhoto);
-  const [coverPhoto, setCoverPhoto] = useState("" || userdata.coverPhoto);
+  const [coverPhoto, setCoverPhoto] = useState( "" || userdata.coverPhoto);
   const [firstName, setFirstName] = useState("" || userdata.firstName);
   const [lastName, setLastName] = useState("" || userdata.lastName);
   const [schoolName, setSchoolName] = useState("" || userdata.schoolName);
@@ -25,8 +30,6 @@ const EditProfileCom = () => {
 
   // console.log(userdata)
   console.log(interests);
-
-
 
   const handleprofilePhotoChange = (e) => {
     const [file] = e.target.files;
@@ -63,12 +66,11 @@ const EditProfileCom = () => {
     try {
 
       const url =  process.env.REACT_APP_API_URL + "/api/v1/profile/profileDetails";
+      console.log("before submit trigger");
       let accessToken = localStorage.getItem('accessToken');
       let res = await fetch(url, {
         method: "PUT",
         headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
           "Authorization": `Bearer ${accessToken}`
         },
         // credentials: "include",
@@ -76,7 +78,12 @@ const EditProfileCom = () => {
 
       });
       const resJson = await res.json();
-      console.log(resJson);
+      console.log('inside submit trigger --> ',resJson);
+      if (resJson.status === 200){
+        console.log("handling close");
+        handleClose();
+        updateProfileFunc();
+      }
 
     } catch (err) {
       console.log(err);
@@ -126,7 +133,7 @@ const EditProfileCom = () => {
                     component="img"
                     height="150"
                     src={preview1 ? preview1 : coverPhoto}
-                    alt="Paella dish"
+                    alt="Add a cover photo"
                   />
                 </Box>
                 <input onChange={handlecoverPhotoChange}
