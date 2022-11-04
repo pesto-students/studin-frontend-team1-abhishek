@@ -10,7 +10,7 @@ let theme = createTheme();
 const EditProfileCom = () => {
 
   const { userdata } = useContext(GlobalInfo);
-  const userinterest = userdata.interests.split(",")
+  const userinterest = userdata.interests.length>0 ? userdata.interests.split(",") : "";
   const [profilePhoto, setProfilePhoto] = useState("" || userdata.profilePhoto);
   const [coverPhoto, setCoverPhoto] = useState("" || userdata.coverPhoto);
   const [firstName, setFirstName] = useState("" || userdata.firstName);

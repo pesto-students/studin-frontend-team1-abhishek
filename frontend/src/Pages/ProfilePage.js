@@ -27,22 +27,29 @@ export default function ProfilePage() {
     const data = await res.json();
 
 
-    if (data) {
-      setCartdata(data)
-    }
+    // if (data) {
+    setCartdata(data)
+    // }
   };
   useEffect(() => {
+    // if (Object.keys(cartdata).length === 0){
     getdatabuy();
+    // }
   }, []);
 
   const [danish, setDanish] = useState([]);
+  
   const getdatabuy1 = async () => {
-    const res = await fetch("http://localhost:4000/api/v1/profile/allConnections", {
+
+    let accessToken = localStorage.getItem('accessToken');
+    const res = await fetch(process.env.REACT_APP_API_URL + "/api/v1/profile/allConnections", {
       method: "GET",
       headers: {
-        Accept: "application/json",
+        // Accept: "application/json",
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${accessToken}`
       },
-      credentials: "include"
+      // credentials: "include"
     });
 
     const data = await res.json();
@@ -51,8 +58,10 @@ export default function ProfilePage() {
     console.log(danish, "danish profile page m aarha h ");
   }
   useEffect(() => {
-    getdatabuy1();
-  }, []);
+    if (danish.length === 0){
+      getdatabuy1();
+    }
+  }, [danish]);
 
   return (
     <GlobalInfo.Provider value={{ userdata: cartdata, userDanish: danish }}>

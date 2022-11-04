@@ -8,22 +8,31 @@ export const GlobalInfo = createContext();
 export default function AllConnections() {
 
   const [danish, setDanish] = useState([]);
+
   const getdatabuy1 = async () => {
-    const res = await fetch("http://localhost:4000/api/v1/profile/allConnections", {
+    let accessToken = localStorage.getItem('accessToken');
+    console.log('accessToken from local storage --> ',accessToken);
+
+    const res = await fetch(process.env.REACT_APP_API_URL + "/api/v1/profile/allConnections", {
       method: "GET",
       headers: {
-        Accept: "application/json",
+        // Accept: "application/json",
+        'Content-Type': 'application/json',
+        "Authorization": `Bearer ${accessToken}`
       },
-      credentials: "include"
+      // credentials: "include"
     });
 
     const data = await res.json();
-
+    console.log("allConns before setting -->");
     setDanish(data)
   }
+
   useEffect(() => {
-    getdatabuy1();
-  }, []);
+    // if(danish.length === 0){
+      getdatabuy1();
+    // }
+  }, [danish]);
 
   return (
     <GlobalInfo.Provider value={{ userDanish: danish }}>
