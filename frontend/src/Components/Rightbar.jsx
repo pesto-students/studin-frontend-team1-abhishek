@@ -10,6 +10,8 @@ import Grid from '@mui/material/Grid';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import Button from '@mui/material/Button';
 import DoneIcon from '@mui/icons-material/Done';
+import CircularProgress from '@mui/material/CircularProgress';
+import { useNavigate } from 'react-router-dom';
 
 const Demo = styled('div')(({ theme }) => ({
   // backgroundColor: theme.palette.background.paper,
@@ -40,6 +42,17 @@ const Rightbar = (props) => {
   const [acceptClicks, setAcceptClicks] = useState([]);
   const [fade, setFade] = useState([]);
   const [allUsersData, setAllUsersData] = useState([]);
+  const navigate = useNavigate();
+
+  const StyledCircularProgress = styled(CircularProgress)(({theme}) => ({
+    // size:"50",
+    // flex: "1", 
+    // marginTop: "40vh",
+    marginLeft: "5vw",
+    // marginBottom: "50vh",
+    justifyContent: 'center',
+    alignItems:'center'
+  }))
 
   const triggerFade = () => {
     setFade(prevState => {
@@ -206,6 +219,7 @@ const Rightbar = (props) => {
                     style={{ transitionDelay:'500ms'}}
                   >
                   <ListItem key={i} onAnimationEnd={triggerFade} className={fade ? 'fadedClass': 'visibleClass'}
+                    onClick={() => navigate(`/connectionprofile/${user._id}`)}
                     secondaryAction={
                       <IconButton edge="end" aria-label="add" value={user.email} onClick={(event) =>{
                         handleAddConnChange(event); 
@@ -231,7 +245,10 @@ const Rightbar = (props) => {
                   </ListItem>   
                   </Fade>             
                 )) :
-                <ListItem>Uh-oh! We don't have any suggestions for you today.</ListItem>
+                <ListItem>
+                  <StyledCircularProgress />
+                </ListItem>
+                // <ListItem>Uh-oh! We don't have any suggestions for you today.</ListItem>
               }
                             
               <Typography sx={{ mt: 4, mb: 2 }} fontWeight={100} variant="h6" component="div">
@@ -268,6 +285,11 @@ const Rightbar = (props) => {
                     />
                   </ListItem>                
                 )) :
+                myConnRequests === undefined ?
+                <ListItem>
+                  <StyledCircularProgress />
+                </ListItem>
+                :
                 <ListItem>No pending connection requests</ListItem>
               }
               {/* <ListItem>Review pending invites</ListItem> */}

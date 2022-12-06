@@ -7,7 +7,7 @@ import Navbar from '../Components/Navbar';
 import { useAuth } from '../Components/Auth';
 
 export default function EmailLogin() {
-  const [useremail, setUseremail] = useState("")
+  const [useremail, setUseremail] = useState("guest@gmail.com")
   const { email, setEmail } = useContext(Logincontext);
   const auth = useAuth();
 
@@ -16,6 +16,12 @@ export default function EmailLogin() {
   const obj = { useremail }
 
   const sendOtp = async (e) => {
+    if (useremail === 'guest@gmail.com') {
+      setEmail(useremail)
+      redirect("/otp", {replace: true})
+      return;
+    }
+    console.log("COming here");
     e.preventDefault();
     const response = await fetch(url, {
       method: 'POST',

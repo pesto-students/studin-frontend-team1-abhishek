@@ -25,7 +25,7 @@ const Interests = ['Music', 'Art', 'Sports', 'Literature', 'History',
 
 export default function SelectInterests({interest,setInterest}) {
   // const [interest, setInterest] = React.useState([]);
-console.log(Interests);
+// console.log(Interests);
   const handleChange = (event) => {
     const {
       target: { value },
@@ -35,7 +35,7 @@ console.log(Interests);
       typeof value === 'string' ? value.split(',') : value,
     );
   };
-  console.log(interest);
+  // console.log(interest);
 
   return (
     <div>

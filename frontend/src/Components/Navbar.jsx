@@ -13,21 +13,14 @@ const StyledToolbar = styled(Toolbar)({
 
 const StyledNavLink = styled(NavLink)(({theme})=>({
   textDecoration: "none",
-  color: theme.palette.common.white
+  color: theme.palette.primary.light
 }));
 
 const Search = styled("div")(({theme}) => ({
-  // backgroundColor: "white",
-  // color: theme.palette.common.white,
-  // backgroundColor: theme.palette.common.white,
   padding: "0 10px",
-  borderRadius: theme.shape.borderRadius,
-  // width: "40%",
-  // border: '0.5px solid white',
-  // '&:hover': {
-  //   backgroundColor: theme.palette.common.white,
-  // },
+  borderRadius: theme.shape.borderRadius
 }));
+
 const StyledInputBase = styled(InputBase)(({theme}) => ({
   // color: theme.palette.grey,
   // color: "gray",
@@ -63,6 +56,7 @@ const Navbar = (props, {theme}) => {
     setSearchActive(!searchActive);
   };
 
+
   const handleLogout = async () => {
     const url =  process.env.REACT_APP_API_URL + "/api/v1/auth/logout";
     let accessToken = localStorage.getItem('accessToken');
@@ -79,8 +73,8 @@ const Navbar = (props, {theme}) => {
     const jsonResult = await result.json()
     console.log(jsonResult);
     if (jsonResult.status === 200){
-      auth.logout();
 
+      auth.logout();
       redirect("/")
     } else {
       alert("Please login first!")
@@ -100,14 +94,16 @@ const Navbar = (props, {theme}) => {
         { userEmail ? 
         <>
           <Search onClick={handleSearchClick} style={{
-            backgroundColor: searchActive ? "white" : "white",
-            width: searchActive ? "40%" : "30%",
-            marginRight: '8%'
+              backgroundColor: searchActive ? "white" : "white",
+              // width: searchActive ? "40%" : "30%",
+              width: "40%",
+              marginRight: '8%'
             }}>
-            <StyledInputBase placeholder='search...' style={{
-              color: searchActive ? "black" : "black"
+            <StyledInputBase placeholder='search...'  style={{
+              color: searchActive ? "black" : "black",
+              width: "100%",
             }}/>
-          </Search> 
+          </Search>
           <Icons>
             <Avatar sx={{width:30, height:30}}  
             onClick={e => {setOpen(true)}}
@@ -136,7 +132,6 @@ const Navbar = (props, {theme}) => {
         >
         <MenuItem><StyledNavLink to='/profile'> Profile</StyledNavLink></MenuItem>
         <MenuItem><StyledNavLink to='/dashboard'>Dashboard</StyledNavLink></MenuItem>
-        {/* <MenuItem><StyledNavLink to='/profile'>My account</StyledNavLink></MenuItem> */}
         <MenuItem onClick={handleLogout}><StyledNavLink>Logout</StyledNavLink></MenuItem>
         { !userEmail && (
           <MenuItem><StyledNavLink to='/'>Login</StyledNavLink></MenuItem>

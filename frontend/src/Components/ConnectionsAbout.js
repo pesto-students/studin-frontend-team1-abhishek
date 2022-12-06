@@ -1,9 +1,17 @@
 import { Divider, Grid, Typography, Box, } from '@mui/material'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { GlobalInfo } from "../Pages/ConnectionProfile"
 import { useContext } from 'react';
-const AboutCom = () => {
+const AboutCom = (props) => {
+  const {getconnectionsdetails} =  props;
   const { userConnection } = useContext(GlobalInfo);
+
+  useEffect(() => {
+    
+    if (Object.length === 0){
+      getconnectionsdetails();
+    }
+  }, [userConnection]);
   return (
     <Box
       sx={{

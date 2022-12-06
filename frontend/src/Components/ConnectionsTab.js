@@ -34,7 +34,7 @@ TabPanel.propTypes = {
 
 const TabComponent = (props) => {
 
-  const {connectionId} = props;
+  const {connectionId, getconnectionsdetails} = props;
   const [value, setValue] = useState(0);
   return (
     <div>
@@ -65,7 +65,7 @@ const TabComponent = (props) => {
           borderRadius: ""
         }}>
           {/* <ConnectionsCard /> */}
-          <ThirdPartyPosts connectionId={connectionId}/>
+          <ThirdPartyPosts connectionId={connectionId} getconnectionsdetails={getconnectionsdetails}/>
           
         </Toolbar>
       </TabPanel>
@@ -74,7 +74,7 @@ const TabComponent = (props) => {
           flexDirection: "column", mx: "", border: "", mt: "2 % ",
           borderRadius: ""
         }}>
-          <ConnectionsConnection />
+          <ConnectionsConnection getconnectionsdetails={getconnectionsdetails}/>
         </Toolbar>
 
       </TabPanel>

@@ -49,7 +49,7 @@ const ConnectionsCom = () => {
             </Grid>
           )
         }
-        <div sx={{ ml: "2%" }} onClick={() => navigate(`/connections`)}>See All Connections</div>
+        {/* <div sx={{ ml: "2%" }} onClick={() => navigate(`/connections`)}>See All Connections</div> */}
       </>
     </Box>
   )

@@ -26,8 +26,12 @@ const ConectionProfile = () => {
     // console.log(danish, "danish profile page m aarha h ");
   }
   useEffect(() => {
-    getconnectionsdetails()
-  }, [])
+    
+    if (Object.keys(connection).length === 0){
+      getconnectionsdetails();
+    }
+  }, [connection]);
+
   console.log(connection)
 
   return (
@@ -40,7 +44,7 @@ const ConectionProfile = () => {
         <Navbar />
         <Box sx={{ border: 1, mx: "5%", mt: "2%", bgcolor: "white" }}>
           <ConnnectionsProfileComponent />
-          <ConnectionsTab connectionId={id} />
+          <ConnectionsTab getconnectionsdetails={getconnectionsdetails} connectionId={id} />
         </Box>
       </Box>
     </GlobalInfo.Provider>

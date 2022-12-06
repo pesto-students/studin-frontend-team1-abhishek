@@ -6,20 +6,25 @@ import LoginTextfield from '../Components/LoginTextfield';
 import SelectInterests from '../Components/SelectInterests';
 import { Logincontext } from '../Components/Context/Contextprovider';
 import { useNavigate } from 'react-router-dom';
+import LoadingButton from '@mui/lab/LoadingButton';
 
 export const Register = () => {
+
   const { email, setEmail } = useContext(Logincontext);
   const [imageFile, setImageFile] = useState("");
   // const [email, setEmail] = useState("Email");
-  const [firstName, setFirstName] = useState("First");
-  const [lastName, setLastName] = useState("Last");
-  const [schoolName, setSchoolName] = useState("School");
-  const [collegeName, setCollegeName] = useState("College");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [schoolName, setSchoolName] = useState("");
+  const [collegeName, setCollegeName] = useState("");
   const [interests, setInterests] = useState([]);
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState(false);
-  const [preview, setPreview] = useState("")
+  const [preview, setPreview] = useState("");
+  const [buttonLoading, setButtonLoading] = useState(false);
   const redirect = useNavigate();
+
+
   console.log(interests, firstName, lastName);
   useEffect(() => {
     if (imageFile) {
@@ -59,6 +64,7 @@ export const Register = () => {
   // Handling the form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setButtonLoading(true);
     if (e.target !== e.currentTarget) {
       return;
     }
@@ -88,12 +94,15 @@ export const Register = () => {
       if (resJson.status == 200) {
         console.log("User registered successfully");
         // reset()
+        setButtonLoading(false);
         window.localStorage.setItem('accessToken', resJson.accessToken);
         window.localStorage.setItem('userEmail', resJson.userEmail);
         window.localStorage.setItem('userId', resJson.userId);
         redirect("/dashboard")
       } else {
         console.log("User registeration Unsuccessful");
+        alert("User registration failed! Make sure the file size is lesser than 5 mb")
+        setButtonLoading(false);
         redirect("/register")
       }
     } catch (err) {
@@ -154,11 +163,11 @@ export const Register = () => {
                     flexDirection="column"
                     alignItems="center"
                     justifyContent={"center"}>
-                    <LoginTextfield type="email" name='email' value={email} placeholder={'*@*.com'} label="Enter Your Email" />
+                    <LoginTextfield type="email" name='email' value={email} placeholder={'*@*.com'} label="Email" />
 
-                    <LoginTextfield type="text" name='firstName' value={firstName} onChange={setFirstName} placeholder={'Vishal'} label="Enter Your first name" />
+                    <LoginTextfield type="text" name='firstName' value={firstName} onChange={setFirstName}  label="First name" />
 
-                    <LoginTextfield type="text" name='lastName' value={lastName} onChange={setLastName} placeholder='singh' label="Enter Your last name" />
+                    <LoginTextfield type="text" name='lastName' value={lastName} onChange={setLastName} label="Last name" />
                   </Box>
                 </Grid>
                 <Grid item xs={12} sm={12} md={6} lg={6} xl={6} >
@@ -167,18 +176,26 @@ export const Register = () => {
                     flexDirection="column"
                     alignItems="center"
                     justifyContent={"center"}>
-                    <LoginTextfield type="text" name='schoolName' value={schoolName} onChange={setSchoolName} placeholder='Delhi Public School' label="Enter Your school name" />
-                    <LoginTextfield type="text" name='collegeName' value={collegeName} onChange={setCollegeName} placeholder='IIT DELHI' label="Enter Your College name" />
+                    <LoginTextfield type="text" name='schoolName' value={schoolName} onChange={setSchoolName}  label="School name" />
+                    <LoginTextfield type="text" name='collegeName' value={collegeName} onChange={setCollegeName} label="College name" />
                     <SelectInterests interest={interests} setInterest={setInterests} />
                   </Box>
                 </Grid>
-
-                <Button
-                  variant='contained'
-                  type='submit'
-                  size="large"
-                  sx={{ marginTop: 2, marginBottom: 3, borderRadius: 3, }}
-                >Finish</Button>
+                {
+                  buttonLoading ? 
+                    <LoadingButton loading variant="outlined" sx={{marginTop: 2, marginBottom: 3, borderRadius: 3,
+                    //  backgroundColor: "common.white",
+                     color: "common.black"}}>
+                      Loading
+                    </LoadingButton>
+                  :
+                    <Button
+                      variant='contained'
+                      type='submit'
+                      size="large"
+                      sx={{ marginTop: 2, marginBottom: 3, borderRadius: 3, }}
+                    >Finish</Button>
+                }
               </Grid>
             </Box>
           </form>

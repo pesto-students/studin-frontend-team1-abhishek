@@ -115,8 +115,10 @@ export const ThirdPartyPosts = (props) => {
   };
 
   useEffect(() => {
-    fetchPostData();
-  }, [])
+    if (postsData.length === 0){
+      fetchPostData();
+    }
+    }, [postsData]);
   
 
   useDebouncedEffect(() => {

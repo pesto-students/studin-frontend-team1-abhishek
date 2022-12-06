@@ -12,9 +12,11 @@ export const appTheme = createTheme({
         //     main: '#15c630'
         // },
         primary: {
-            light: blue[300],
+            // light: blue[300],
+            light: "black",
             main: purple[500],
-            dark: blue[700],
+            // dark: blue[700],
+            dark: "white",
           },
           secondary: {
             light: pink[300],

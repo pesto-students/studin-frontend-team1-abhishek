@@ -1,13 +1,22 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Avatar, Box, Grid, Typography, } from '@mui/material'
 
 import Divider from '@mui/material/Divider';
 import { GlobalInfo } from "../Pages/ConnectionProfile"
 import { useContext } from 'react';
 
-const ConnectionsConnection = () => {
+const ConnectionsConnection = (props) => {
+  const {getconnectionsdetails} = props;
   const { userConnection } = useContext(GlobalInfo);
   console.log(" connections data arha h kya", userConnection)
+
+  useEffect(() => {
+    
+    if (userConnection.length === 0){
+      getconnectionsdetails();
+    }
+  }, [userConnection]);
+
   return (
     <Box sx={{
       height: '100%',

@@ -10,7 +10,7 @@ import { useAuth } from '../Components/Auth';
 export default function OtpLogin() {
   
   const { email, setEmail } = useContext(Logincontext);
-  const [otp, setOtp] = useState("")
+  const [otp, setOtp] = useState("123456")
   const url =  process.env.REACT_APP_API_URL + "/api/v1/auth/login"
   const obj = { email, otp }
   const redirect = useNavigate()
@@ -19,6 +19,17 @@ export default function OtpLogin() {
   const auth = useAuth();
 
   const Login = async (e) => {
+    // if (email === 'guest@gmail.com' && otp === '123456'){
+    //   window.localStorage.setItem('accessToken', data.accessToken);
+    //   window.localStorage.setItem('userEmail', data.userEmail);
+    //   window.localStorage.setItem('userId', data.userId);
+      
+    //   console.log("cookie received -->", data);
+    //   // redirect("/dashboard")
+    //   auth.login(email);
+    //   redirect( "/dashboard", {replace: true})
+    //   return;
+    // }
     e.preventDefault();
     const response = await fetch(url, {
       method: 'POST',
@@ -83,6 +94,8 @@ export default function OtpLogin() {
                 type={'password'}
                 variant='outlined'
                 id="standard-required"
+                name='otp'
+                value={otp}
                 placeholder='*******'
                 margin='normal'
                 label="Enter Your OTP"

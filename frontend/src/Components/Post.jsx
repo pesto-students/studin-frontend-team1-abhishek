@@ -16,8 +16,9 @@ import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import CommentOutlinedIcon from '@mui/icons-material/CommentOutlined';
 import CommentIcon from '@mui/icons-material/Comment';
 import { useDebouncedEffect } from '../Utils/Hooks/useDebouncedEffect';
-import { Grid } from '@mui/material'
+import { Grid, styled } from '@mui/material'
 import { useAuth } from './Auth';
+import CircularProgress from '@mui/material/CircularProgress';
 
 export const Post = (props) => {
 
@@ -31,6 +32,12 @@ export const Post = (props) => {
   let userEmail = localStorage.getItem('userEmail');
   let userId = localStorage.getItem('userId');
   const auth = useAuth();
+
+  const StyledCircularProgress = styled(CircularProgress)(({theme}) => ({
+    height:"100%", width:"100%",
+    justifyContent: 'center',
+    alignItems:'center'
+  }));
   
   const handleLike = (event) => {
     // console.log("Liked");
@@ -260,7 +267,8 @@ export const Post = (props) => {
             </Collapse>
           </Card>
           )
-          ))) : <div>No new posts available for today ...</div>
+          ))) :
+           <div></div>
 
     } 
 </>
